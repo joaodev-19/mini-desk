@@ -16,6 +16,8 @@
         rel="stylesheet"
         href="{% static 'css/login.css' %}"
     >
+
+    <link rel="icon" type="image/png" href="{% static 'imgs/mini-desk-icon.svg' %}">
 </head>
 
 <body>
@@ -25,13 +27,11 @@
             <div class="presentation-content">
 
                 <a href="/" class="brand">
-                    <span class="brand-icon">
-                        MD
-                    </span>
-
-                    <span class="brand-name">
-                        Mini Desk
-                    </span>
+                    <img
+                        class="brand-logo brand-logo-desktop"
+                        src="{% static 'imgs/mini-desk-logo-white.svg' %}"
+                        alt="Mini Desk"
+                    >
                 </a>
 
                 <div class="presentation-text">
@@ -96,15 +96,13 @@
 
         <section class="login-area">
 
-            <div class="mobile-brand">
-                <span class="brand-icon">
-                    MD
-                </span>
-
-                <span class="brand-name">
-                    Mini Desk
-                </span>
-            </div>
+            <a href="/" class="mobile-brand">
+                <img
+                    class="brand-logo brand-logo-mobile"
+                    src="{% static 'imgs/mini-desk-logo-purple.svg' %}"
+                    alt="Mini Desk"
+                >
+            </a>
 
             <div class="login-card">
 
