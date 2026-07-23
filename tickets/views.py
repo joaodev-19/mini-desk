@@ -18,6 +18,11 @@ from .serializers import (
 
     TicketContentUpdateSerializer,
     TicketSupportUpdateSerializer,
+
+    TicketCommentSerializer,
+    TicketCreateCommentSerializer,
+    TicketAttachmentSerializer,
+    TicketCreateAttachmentSerializer,
 )
 
 
@@ -114,6 +119,46 @@ class TicketSupportUpdateAPIView(APIView):
         output_serializer = TicketDetailSerializer(updated_ticket)
 
         return Response(output_serializer.data, status=status.HTTP_200_OK)
+
+
+class TicketCommentCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        if request.user.is_support:
+            ticket = get_object_or_404(Ticket, pk=pk)
+
+        else:
+            ticket = get_object_or_404(Ticket, pk=pk, created_by=request.user)
+
+        serializer = TicketCreateCommentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        comment = serializer.save(ticket=ticket, author=request.user)
+
+        output_serializer = TicketCommentSerializer(comment)
+
+        return Response(output_serializer.data, status=status.HTTP_201_CREATED)
+
+
+class TicketAttachmentCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        if request.user.is_support:
+            ticket = get_object_or_404(Ticket, pk=pk)
+
+        else:
+            ticket = get_object_or_404(Ticket, pk=pk, created_by=request.user)
+
+        serializer = TicketCreateAttachmentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        attachment = serializer.save(ticket=ticket, uploaded_by=request.user)
+
+        output_serializer = TicketAttachmentSerializer(attachment)
+
+        return Response(output_serializer.data, status=status.HTTP_201_CREATED)
     
 def home_view(request):
     return render(request, 'tickets/index.html')

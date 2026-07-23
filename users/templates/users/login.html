@@ -1,0 +1,228 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | Mini Desk</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/login.css' %}"
+    >
+</head>
+
+<body>
+    <main class="login-page">
+
+        <section class="login-presentation">
+            <div class="presentation-content">
+
+                <a href="/" class="brand">
+                    <span class="brand-icon">
+                        MD
+                    </span>
+
+                    <span class="brand-name">
+                        Mini Desk
+                    </span>
+                </a>
+
+                <div class="presentation-text">
+                    <span class="eyebrow">
+                        Atendimento organizado
+                    </span>
+
+                    <h1>
+                        Seus chamados,
+                        <span>em um só lugar.</span>
+                    </h1>
+
+                    <p>
+                        Registre problemas, acompanhe atualizações
+                        e mantenha a comunicação com o suporte
+                        de forma simples e centralizada.
+                    </p>
+                </div>
+
+                <div class="presentation-features">
+                    <article class="feature">
+                        <span class="feature-number">
+                            01
+                        </span>
+
+                        <div>
+                            <strong>
+                                Acompanhamento claro
+                            </strong>
+
+                            <p>
+                                Visualize o status e o histórico
+                                completo de cada chamado.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="feature">
+                        <span class="feature-number">
+                            02
+                        </span>
+
+                        <div>
+                            <strong>
+                                Comunicação centralizada
+                            </strong>
+
+                            <p>
+                                Comentários e anexos permanecem
+                                vinculados ao atendimento.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+
+            <div class="presentation-decoration decoration-one"></div>
+            <div class="presentation-decoration decoration-two"></div>
+        </section>
+
+
+        <section class="login-area">
+
+            <div class="mobile-brand">
+                <span class="brand-icon">
+                    MD
+                </span>
+
+                <span class="brand-name">
+                    Mini Desk
+                </span>
+            </div>
+
+            <div class="login-card">
+
+                <header class="login-header">
+                    <span class="login-label">
+                        Bem-vindo
+                    </span>
+
+                    <h2>
+                        Acesse sua conta
+                    </h2>
+
+                    <p>
+                        Informe suas credenciais para continuar.
+                    </p>
+                </header>
+
+
+                <div
+                    id="login-error"
+                    class="login-message login-message-error"
+                    role="alert"
+                    aria-live="polite"
+                    hidden
+                >
+                    Usuário ou senha inválidos.
+                </div>
+
+
+                <form
+                    id="login-form"
+                    class="login-form"
+                    method="post"
+                >
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="username">
+                            Usuário
+                        </label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Digite seu usuário"
+                            autocomplete="username"
+                            required
+                            autofocus
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="password-label">
+                            <label for="password">
+                                Senha
+                            </label>
+                        </div>
+
+                        <div class="password-field">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Digite sua senha"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                id="toggle-password"
+                                class="password-toggle"
+                                aria-label="Mostrar senha"
+                            >
+                                Mostrar
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="login-button"
+                        class="login-button"
+                    >
+                        <span class="button-text">
+                            Entrar
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+                    </button>
+                </form>
+
+
+                <footer class="login-footer">
+                    <p>
+                        Está com problemas para acessar?
+                    </p>
+
+                    <a href="#">
+                        Entre em contato com o suporte
+                    </a>
+                </footer>
+
+            </div>
+
+            <p class="page-footer">
+                © {% now "Y" %} Mini Desk
+            </p>
+
+        </section>
+
+    </main>
+
+    <script src="{% static 'js/login.js' %}"></script>
+</body>
+</html>

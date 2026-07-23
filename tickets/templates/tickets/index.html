@@ -1,11 +1,830 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Início | Mini Desk</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'tickets/css/home.css' %}"
+    >
 </head>
+
 <body>
-    <h1>Teste</h1>
+    <div class="app-layout">
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-header">
+                <a href="/" class="brand">
+                    <span class="brand-icon">
+                        MD
+                    </span>
+
+                    <span class="brand-name">
+                        Mini Desk
+                    </span>
+                </a>
+
+                <button
+                    type="button"
+                    class="sidebar-close"
+                    id="sidebar-close"
+                    aria-label="Fechar menu"
+                >
+                    ×
+                </button>
+            </div>
+
+
+            <nav class="sidebar-navigation">
+                <span class="navigation-label">
+                    Navegação
+                </span>
+
+                <a
+                    href="/"
+                    class="navigation-item active"
+                >
+                    <span class="navigation-icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M3 3h7v7H3V3Zm11 0h7v7h-7V3ZM3 14h7v7H3v-7Zm11 0h7v7h-7v-7Z"
+                            />
+                        </svg>
+                    </span>
+
+                    <span>
+                        Visão geral
+                    </span>
+                </a>
+
+                <a
+                    href="#"
+                    class="navigation-item"
+                >
+                    <span class="navigation-icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 5h10M7 12h7M7 16h4"
+                            />
+                        </svg>
+                    </span>
+
+                    <span>
+                        Meus chamados
+                    </span>
+
+                    <span
+                        class="navigation-count"
+                        id="sidebar-ticket-count"
+                    >
+                        0
+                    </span>
+                </a>
+
+                <a
+                    href="#"
+                    class="navigation-item"
+                    id="sidebar-new-ticket"
+                >
+                    <span class="navigation-icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M12 5v14M5 12h14"
+                            />
+                        </svg>
+                    </span>
+
+                    <span>
+                        Novo chamado
+                    </span>
+                </a>
+
+
+                <span class="navigation-label navigation-label-secondary">
+                    Conta
+                </span>
+
+                <a
+                    href="#"
+                    class="navigation-item"
+                >
+                    <span class="navigation-icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+                            />
+                        </svg>
+                    </span>
+
+                    <span>
+                        Meu perfil
+                    </span>
+                </a>
+            </nav>
+
+
+            <div class="sidebar-footer">
+                <div class="sidebar-help">
+                    <span class="sidebar-help-icon">
+                        ?
+                    </span>
+
+                    <div>
+                        <strong>
+                            Precisa de ajuda?
+                        </strong>
+
+                        <p>
+                            Entre em contato com o suporte.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+
+        <div
+            class="sidebar-overlay"
+            id="sidebar-overlay"
+        ></div>
+
+
+        <!-- =====================================================
+             CONTEÚDO
+        ====================================================== -->
+
+        <div class="app-content">
+
+            <!-- =================================================
+                 TOPBAR
+            ================================================== -->
+
+            <header class="topbar">
+
+                <div class="topbar-left">
+                    <button
+                        type="button"
+                        class="menu-button"
+                        id="menu-button"
+                        aria-label="Abrir menu"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+
+                    <div class="page-identification">
+                        <span class="page-context">
+                            Central de atendimento
+                        </span>
+
+                        <h1>
+                            Visão geral
+                        </h1>
+                    </div>
+                </div>
+
+
+                <div class="topbar-actions">
+
+                    <button
+                        type="button"
+                        class="notification-button"
+                        aria-label="Notificações"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"
+                            />
+                        </svg>
+
+                        <span class="notification-dot"></span>
+                    </button>
+
+
+                    <div class="user-menu">
+                        <div class="user-avatar">
+                            <span id="current-user-initials">
+                                US
+                            </span>
+                        </div>
+
+                        <div class="user-information">
+                            <strong id="current-user-name">
+                                Usuário
+                            </strong>
+
+                            <span id="current-user-role">
+                                Cliente
+                            </span>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="logout-button"
+                            id="logout-button"
+                        >
+                            Sair
+                        </button>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 MAIN
+            ================================================== -->
+
+            <main class="dashboard">
+
+                <!-- =============================================
+                     BOAS-VINDAS
+                ============================================== -->
+
+                <section class="welcome-card">
+
+                    <div class="welcome-content">
+                        <span class="welcome-eyebrow">
+                            Bem-vindo de volta
+                        </span>
+
+                        <h2>
+                            Olá,
+                            <span id="welcome-user-name">
+                                usuário
+                            </span>.
+                        </h2>
+
+                        <p>
+                            Acompanhe suas solicitações recentes
+                            ou registre um novo chamado para a
+                            equipe de suporte.
+                        </p>
+
+                        <div class="welcome-actions">
+                            <button
+                                type="button"
+                                class="primary-button"
+                                id="new-ticket-button"
+                            >
+                                <span class="button-plus">
+                                    +
+                                </span>
+
+                                Abrir novo chamado
+                            </button>
+
+                            <a
+                                href="#recent-tickets"
+                                class="secondary-button"
+                            >
+                                Ver chamados recentes
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div
+                        class="welcome-illustration"
+                        aria-hidden="true"
+                    >
+                        <div class="illustration-window">
+
+                            <div class="illustration-header">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="illustration-content">
+                                <div class="illustration-sidebar">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                                <div class="illustration-main">
+                                    <div class="illustration-line large"></div>
+                                    <div class="illustration-line"></div>
+                                    <div class="illustration-line short"></div>
+
+                                    <div class="illustration-card">
+                                        <span></span>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     INDICADORES
+                ============================================== -->
+
+                <section class="statistics-grid">
+
+                    <article class="statistic-card">
+                        <div class="statistic-header">
+                            <span class="statistic-icon icon-open">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                    />
+                                </svg>
+                            </span>
+
+                            <span class="statistic-label">
+                                Em aberto
+                            </span>
+                        </div>
+
+                        <strong
+                            class="statistic-value"
+                            id="ticket-count-open"
+                        >
+                            0
+                        </strong>
+
+                        <p>
+                            Aguardando início do atendimento.
+                        </p>
+                    </article>
+
+
+                    <article class="statistic-card">
+                        <div class="statistic-header">
+                            <span class="statistic-icon icon-analysis">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M4 19h16M6 16l4-4 3 3 5-7"
+                                    />
+                                </svg>
+                            </span>
+
+                            <span class="statistic-label">
+                                Em análise
+                            </span>
+                        </div>
+
+                        <strong
+                            class="statistic-value"
+                            id="ticket-count-analysis"
+                        >
+                            0
+                        </strong>
+
+                        <p>
+                            Sendo analisados pelo suporte.
+                        </p>
+                    </article>
+
+
+                    <article class="statistic-card">
+                        <div class="statistic-header">
+                            <span class="statistic-icon icon-waiting">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M4 5h16v11H7l-3 3V5Zm5 5h.01M12 10h.01M15 10h.01"
+                                    />
+                                </svg>
+                            </span>
+
+                            <span class="statistic-label">
+                                Aguardando você
+                            </span>
+                        </div>
+
+                        <strong
+                            class="statistic-value"
+                            id="ticket-count-waiting"
+                        >
+                            0
+                        </strong>
+
+                        <p>
+                            Precisam de uma nova resposta.
+                        </p>
+                    </article>
+
+
+                    <article class="statistic-card">
+                        <div class="statistic-header">
+                            <span class="statistic-icon icon-resolved">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="m5 12 4 4L19 6"
+                                    />
+                                </svg>
+                            </span>
+
+                            <span class="statistic-label">
+                                Resolvidos
+                            </span>
+                        </div>
+
+                        <strong
+                            class="statistic-value"
+                            id="ticket-count-resolved"
+                        >
+                            0
+                        </strong>
+
+                        <p>
+                            Chamados solucionados recentemente.
+                        </p>
+                    </article>
+
+                </section>
+
+
+                <!-- =============================================
+                     CONTEÚDO PRINCIPAL
+                ============================================== -->
+
+                <section class="dashboard-grid">
+
+                    <!-- CHAMADOS RECENTES -->
+
+                    <article
+                        class="content-card recent-tickets-card"
+                        id="recent-tickets"
+                    >
+                        <header class="content-card-header">
+                            <div>
+                                <span class="section-eyebrow">
+                                    Atendimentos
+                                </span>
+
+                                <h3>
+                                    Chamados recentes
+                                </h3>
+
+                                <p>
+                                    Acompanhe suas solicitações mais recentes.
+                                </p>
+                            </div>
+
+                            <a
+                                href="#"
+                                class="text-link"
+                            >
+                                Ver todos
+                                <span>→</span>
+                            </a>
+                        </header>
+
+
+                        <div class="tickets-table-wrapper">
+                            <table class="tickets-table">
+                                <thead>
+                                    <tr>
+                                        <th>Chamado</th>
+                                        <th>Módulo</th>
+                                        <th>Status</th>
+                                        <th>Atualizado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="recent-tickets-body">
+
+                                    <!--
+                                        Conteúdo temporário.
+                                        Depois será substituído pelo api.js.
+                                    -->
+
+                                    <tr>
+                                        <td data-label="Chamado">
+                                            <div class="ticket-identification">
+                                                <span class="ticket-code">
+                                                    #0001
+                                                </span>
+
+                                                <strong>
+                                                    Erro ao acessar o sistema
+                                                </strong>
+                                            </div>
+                                        </td>
+
+                                        <td data-label="Módulo">
+                                            <span class="module-tag">
+                                                Acesso
+                                            </span>
+                                        </td>
+
+                                        <td data-label="Status">
+                                            <span class="status-badge status-analysis">
+                                                Em análise
+                                            </span>
+                                        </td>
+
+                                        <td data-label="Atualizado">
+                                            <span class="ticket-date">
+                                                Hoje, 09:42
+                                            </span>
+                                        </td>
+
+                                        <td class="ticket-action-cell">
+                                            <a
+                                                href="#"
+                                                class="ticket-action"
+                                                aria-label="Abrir chamado"
+                                            >
+                                                →
+                                            </a>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <div class="ticket-identification">
+                                                <span class="ticket-code">
+                                                    #0002
+                                                </span>
+
+                                                <strong>
+                                                    Dúvida sobre atualização cadastral
+                                                </strong>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <span class="module-tag">
+                                                Usuários
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span class="status-badge status-waiting">
+                                                Aguardando usuário
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span class="ticket-date">
+                                                Ontem, 16:20
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <a
+                                                href="#"
+                                                class="ticket-action"
+                                                aria-label="Abrir chamado"
+                                            >
+                                                →
+                                            </a>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>
+                                            <div class="ticket-identification">
+                                                <span class="ticket-code">
+                                                    #0003
+                                                </span>
+
+                                                <strong>
+                                                    Lentidão ao enviar documento
+                                                </strong>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <span class="module-tag">
+                                                Documentos
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span class="status-badge status-resolved">
+                                                Resolvido
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span class="ticket-date">
+                                                21 de julho
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <a
+                                                href="#"
+                                                class="ticket-action"
+                                                aria-label="Abrir chamado"
+                                            >
+                                                →
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div
+                            class="empty-state"
+                            id="tickets-empty-state"
+                            hidden
+                        >
+                            <div class="empty-state-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M5 4h14v16H5V4Zm3 5h8M8 13h5"
+                                    />
+                                </svg>
+                            </div>
+
+                            <strong>
+                                Nenhum chamado encontrado
+                            </strong>
+
+                            <p>
+                                Quando você abrir um chamado,
+                                ele aparecerá aqui.
+                            </p>
+
+                            <button
+                                type="button"
+                                class="primary-button compact-button"
+                            >
+                                Abrir chamado
+                            </button>
+                        </div>
+
+                    </article>
+
+
+                    <!-- PAINEL LATERAL -->
+
+                    <aside class="dashboard-side">
+
+                        <article class="content-card quick-card">
+                            <span class="section-eyebrow">
+                                Acesso rápido
+                            </span>
+
+                            <h3>
+                                Como podemos ajudar?
+                            </h3>
+
+                            <p>
+                                Descreva o problema com detalhes
+                                para facilitar o atendimento.
+                            </p>
+
+                            <button
+                                type="button"
+                                class="primary-button full-button"
+                                id="quick-new-ticket-button"
+                            >
+                                <span class="button-plus">
+                                    +
+                                </span>
+
+                                Criar chamado
+                            </button>
+                        </article>
+
+
+                        <article class="content-card status-guide-card">
+                            <header>
+                                <span class="section-eyebrow">
+                                    Fluxo
+                                </span>
+
+                                <h3>
+                                    Etapas do atendimento
+                                </h3>
+                            </header>
+
+                            <div class="status-guide">
+
+                                <div class="status-guide-item">
+                                    <span class="status-guide-marker marker-open"></span>
+
+                                    <div>
+                                        <strong>
+                                            Aberto
+                                        </strong>
+
+                                        <p>
+                                            Solicitação registrada.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="status-guide-item">
+                                    <span class="status-guide-marker marker-analysis"></span>
+
+                                    <div>
+                                        <strong>
+                                            Em análise
+                                        </strong>
+
+                                        <p>
+                                            Atendimento em andamento.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="status-guide-item">
+                                    <span class="status-guide-marker marker-waiting"></span>
+
+                                    <div>
+                                        <strong>
+                                            Aguardando usuário
+                                        </strong>
+
+                                        <p>
+                                            O suporte precisa de informações.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="status-guide-item">
+                                    <span class="status-guide-marker marker-resolved"></span>
+
+                                    <div>
+                                        <strong>
+                                            Resolvido
+                                        </strong>
+
+                                        <p>
+                                            Solução apresentada.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </article>
+
+                    </aside>
+
+                </section>
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <script src="{% static 'js/api.js' %}"></script>
+    <script src="{% static 'tickets/js/home.js' %}"></script>
 </body>
 </html>
