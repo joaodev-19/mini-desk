@@ -12,6 +12,8 @@
 
     <title>Início | Mini Desk</title>
 
+    <link rel="icon" type="image/png" href="{% static 'imgs/mini-desk-icon.svg' %}">
+
     <link
         rel="stylesheet"
         href="{% static 'tickets/css/home.css' %}"
@@ -824,7 +826,6 @@
 
     </div>
 
-    <script src="{% static 'js/api.js' %}"></script>
-    <script src="{% static 'tickets/js/home.js' %}"></script>
+    <script type="module" src="{% static 'dist/tickets/home.js' %}"></script>
 </body>
 </html>
