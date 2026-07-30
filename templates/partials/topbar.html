@@ -1,0 +1,50 @@
+<!-- =================================================
+                 TOPBAR
+            ================================================== -->
+
+<header class="topbar">
+  <div class="topbar-left">
+    <button
+      type="button"
+      class="menu-button"
+      id="menu-button"
+      aria-label="Abrir menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="page-identification">
+      <span class="page-context">{{ page_context|default:"Mini Desk" }}</span>
+
+      <h1>{{ page_title|default:"Página" }}</h1>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <button type="button" class="notification-button" aria-label="Notificações">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" />
+      </svg>
+
+      <span class="notification-dot"></span>
+    </button>
+
+    <div class="user-menu">
+      <div class="user-avatar">
+        <span id="current-user-initials"> US </span>
+      </div>
+
+      <div class="user-information">
+        <strong id="current-user-name"> Usuário </strong>
+
+        <span id="current-user-role"> Cliente </span>
+      </div>
+
+      <button type="button" class="logout-button" id="logout-button">
+        Sair
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,21 +1,8 @@
-const menuButton = document.getElementById("menu-button");
-const sidebarClose = document.getElementById("sidebar-close");
-const sidebarOverlay = document.getElementById("sidebar-overlay");
+import { initializeSidebar } from "../../components/layout/sidebar.js";
 
-function openSidebar() {
-    document.body.classList.add("sidebar-open");
+initializeSidebar();
+
+const elements = {
+    newTicketBtn: document.getElementById('new-ticket-button'),
 }
 
-function closeSidebar() {
-    document.body.classList.remove("sidebar-open");
-}
-
-menuButton?.addEventListener("click", openSidebar);
-sidebarClose?.addEventListener("click", closeSidebar);
-sidebarOverlay?.addEventListener("click", closeSidebar);
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-        closeSidebar();
-    }
-});

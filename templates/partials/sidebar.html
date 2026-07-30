@@ -1,0 +1,90 @@
+<!-- =====================================================
+             SIDEBAR
+====================================================== -->
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="/" class="brand">
+      <span class="brand-icon"> MD </span>
+
+      <span class="brand-name"> Mini Desk </span>
+    </a>
+
+    <button
+      type="button"
+      class="sidebar-close"
+      id="sidebar-close"
+      aria-label="Fechar menu"
+    >
+      ×
+    </button>
+  </div>
+
+  <nav class="sidebar-navigation">
+    <span class="navigation-label"> Navegação </span>
+
+    <a href="/" class="navigation-item active">
+      <span class="navigation-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M3 3h7v7H3V3Zm11 0h7v7h-7V3ZM3 14h7v7H3v-7Zm11 0h7v7h-7v-7Z"
+          />
+        </svg>
+      </span>
+
+      <span> Visão geral </span>
+    </a>
+
+    <a href="#" class="navigation-item">
+      <span class="navigation-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 5h10M7 12h7M7 16h4"
+          />
+        </svg>
+      </span>
+
+      <span> Meus chamados </span>
+
+      <span class="navigation-count" id="sidebar-ticket-count"> 0 </span>
+    </a>
+
+    <a href="#new-ticket-modal" data-bs-toggle="modal" class="navigation-item" id="sidebar-new-ticket">
+      <span class="navigation-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      </span>
+
+      <span> Novo chamado </span>
+    </a>
+
+    <span class="navigation-label navigation-label-secondary"> Conta </span>
+
+    <a href="#" class="navigation-item">
+      <span class="navigation-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+          />
+        </svg>
+      </span>
+
+      <span> Meu perfil </span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-help">
+      <span class="sidebar-help-icon"> ? </span>
+
+      <div>
+        <strong> Precisa de ajuda? </strong>
+
+        <p>Entre em contato com o suporte.</p>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>

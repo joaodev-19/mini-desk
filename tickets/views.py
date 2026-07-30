@@ -89,6 +89,12 @@ class TicketContentUpdateAPIView(APIView):
 
     def patch(self, request, pk):
         ticket = get_object_or_404(Ticket, pk=pk, created_by=request.user)
+
+        if ticket.status != Ticket.TicketStatus.OPEN:
+            raise PermissionDenied(
+                "O chamado não pode mais ser editado porque o atendimento já foi iniciado."
+            )
+
         serializer = TicketContentUpdateSerializer(ticket, data=request.data, partial=True)
 
         serializer.is_valid(raise_exception=True)
