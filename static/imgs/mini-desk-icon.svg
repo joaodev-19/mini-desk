@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="512"
+  height="512"
+  viewBox="0 0 512 512"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">Ícone Mini Desk</title>
+  <desc id="desc">Ícone Mini Desk com monograma MD branco e violeta.</desc>
+  
+<defs>
+  <linearGradient id="md-bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#0D1847"/>
+    <stop offset="55%" stop-color="#081039"/>
+    <stop offset="100%" stop-color="#050A2B"/>
+  </linearGradient>
+
+  <radialGradient id="md-sheen" cx="72%" cy="18%" r="82%">
+    <stop offset="0%" stop-color="#23336F" stop-opacity="0.30"/>
+    <stop offset="55%" stop-color="#172152" stop-opacity="0.08"/>
+    <stop offset="100%" stop-color="#030722" stop-opacity="0.20"/>
+  </radialGradient>
+
+  <linearGradient id="md-purple" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#9A6DFF"/>
+    <stop offset="45%" stop-color="#7746F3"/>
+    <stop offset="100%" stop-color="#5F31DF"/>
+  </linearGradient>
+
+  <linearGradient id="md-white" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#FFFFFF"/>
+    <stop offset="100%" stop-color="#F2F3F7"/>
+  </linearGradient>
+
+  <linearGradient id="md-muted" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#5B679A"/>
+    <stop offset="100%" stop-color="#394472"/>
+  </linearGradient>
+</defs>
+
+  
+<rect x="8" y="8" width="496" height="496" rx="108" fill="url(#md-bg)"/>
+<rect x="8" y="8" width="496" height="496" rx="108" fill="url(#md-sheen)"/>
+
+<path
+  d="M287 129 H347
+     C404 129 448 175 448 231
+     C448 287 404 332 347 332
+     H245 V291 H347
+     C381 291 407 264 407 231
+     C407 198 381 170 347 170
+     H287 Z"
+  fill="url(#md-purple)"
+/>
+
+<path
+  d="M72 129 H115
+     L180 208
+     L245 129
+     H287 V269
+     H245 V194
+     L191 263
+     Q180 277 169 263
+     L115 194
+     V332 H72 Z"
+  fill="url(#md-white)"
+/>
+
+<rect x="72" y="378" width="94" height="36" rx="18" fill="url(#md-purple)"/>
+<rect x="181" y="378" width="75" height="36" rx="18" fill="url(#md-muted)"/>
+<rect x="269" y="378" width="75" height="36" rx="18" fill="url(#md-muted)"/>
+
+</svg>
