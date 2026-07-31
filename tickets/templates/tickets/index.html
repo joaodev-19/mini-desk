@@ -178,101 +178,13 @@
               <th>Módulo</th>
               <th>Status</th>
               <th>Atualizado</th>
-              <th></th>
+              <th>Criado por</th>
             </tr>
           </thead>
 
           <tbody id="recent-tickets-body">
-            <!--
-                                        Conteúdo temporário.
-                                        Depois será substituído pelo api.js.
-                                    -->
 
-            <tr>
-              <td data-label="Chamado">
-                <div class="ticket-identification">
-                  <span class="ticket-code"> #0001 </span>
-
-                  <strong> Erro ao acessar o sistema </strong>
-                </div>
-              </td>
-
-              <td data-label="Módulo">
-                <span class="module-tag"> Acesso </span>
-              </td>
-
-              <td data-label="Status">
-                <span class="status-badge status-analysis"> Em análise </span>
-              </td>
-
-              <td data-label="Atualizado">
-                <span class="ticket-date"> Hoje, 09:42 </span>
-              </td>
-
-              <td class="ticket-action-cell">
-                <a href="#" class="ticket-action" aria-label="Abrir chamado">
-                  →
-                </a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="ticket-identification">
-                  <span class="ticket-code"> #0002 </span>
-
-                  <strong> Dúvida sobre atualização cadastral </strong>
-                </div>
-              </td>
-
-              <td>
-                <span class="module-tag"> Usuários </span>
-              </td>
-
-              <td>
-                <span class="status-badge status-waiting">
-                  Aguardando usuário
-                </span>
-              </td>
-
-              <td>
-                <span class="ticket-date"> Ontem, 16:20 </span>
-              </td>
-
-              <td>
-                <a href="#" class="ticket-action" aria-label="Abrir chamado">
-                  →
-                </a>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="ticket-identification">
-                  <span class="ticket-code"> #0003 </span>
-
-                  <strong> Lentidão ao enviar documento </strong>
-                </div>
-              </td>
-
-              <td>
-                <span class="module-tag"> Documentos </span>
-              </td>
-
-              <td>
-                <span class="status-badge status-resolved"> Resolvido </span>
-              </td>
-
-              <td>
-                <span class="ticket-date"> 21 de julho </span>
-              </td>
-
-              <td>
-                <a href="#" class="ticket-action" aria-label="Abrir chamado">
-                  →
-                </a>
-              </td>
-            </tr>
+          
           </tbody>
         </table>
       </div>
@@ -372,5 +284,5 @@
 {% endblock %}
 
 {% block extra_css %}
-<script type="module" src="../../../static/dist/tickets/home.js"></script>
+<script type="module" src="../../../static/dist/pages/tickets/home.js"></script>
 {% endblock %}

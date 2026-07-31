@@ -1046,6 +1046,10 @@ svg {
     gap: 20px;
 }
 
+.clickable-row {
+    cursor: pointer;
+}
+
 
 .content-card {
     border: 1px solid var(--border);
@@ -1269,13 +1273,13 @@ svg {
 }
 
 
-.status-analysis {
+.status-in_analysis {
     background: var(--primary-soft);
     color: var(--primary);
 }
 
 
-.status-waiting {
+.status-waiting_user {
     background: var(--orange-soft);
     color: var(--orange);
 }

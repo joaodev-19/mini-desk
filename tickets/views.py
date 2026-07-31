@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -27,6 +28,7 @@ from .serializers import (
 
 
 class TicketListCreateAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -59,6 +61,7 @@ class TicketListCreateAPIView(APIView):
     
 
 class TicketDetailAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
@@ -85,6 +88,7 @@ class TicketDetailAPIView(APIView):
 
 
 class TicketContentUpdateAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
@@ -107,6 +111,7 @@ class TicketContentUpdateAPIView(APIView):
 
 
 class TicketSupportUpdateAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
@@ -128,6 +133,7 @@ class TicketSupportUpdateAPIView(APIView):
 
 
 class TicketCommentCreateAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
@@ -148,6 +154,7 @@ class TicketCommentCreateAPIView(APIView):
 
 
 class TicketAttachmentCreateAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):

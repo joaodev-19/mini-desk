@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/joaodev-19/mini-desk#readme",
   "devDependencies": {
+    "@types/bootstrap": "^5.2.11",
     "typescript": "^7.0.2"
   },
   "dependencies": {

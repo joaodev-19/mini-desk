@@ -2,6 +2,11 @@ export type ModuleChoices = 'clients' | 'processes' | 'calendar' | 'documents' |
 
 export type StatusChoices = 'open' | 'in_analysis' | 'waiting_user' | 'resolved' | 'closed';
 
+export type CreateTicketResult =
+    | { status: 'success'; message: string; ticketId: number }
+    | { status: 'warning'; message: string; ticketId: number }
+    | { status: 'error'; message: string };
+
 export interface TicketComment {
     id: number;
     author: string;
@@ -27,6 +32,7 @@ export interface TicketListItem {
     status_display: string;
 
     created_at: string;
+    updated_at: string;
     created_by: string;
     assigned_to: string | null;
 }

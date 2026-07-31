@@ -81,6 +81,10 @@ class TicketListSerializer(serializers.Serializer):
         read_only=True,
     )
 
+    updated_at = serializers.DateTimeField(
+        read_only=True
+    )
+
     created_by = serializers.StringRelatedField(
         read_only=True,
     )
