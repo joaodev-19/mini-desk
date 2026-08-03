@@ -2,6 +2,10 @@ import type {
     TicketListItem,
 } from "../../api/tickets/types.js";
 
+import {
+    formatDateTime
+} from "../../shared/utils/utils.js";
+
 export function renderTicketsList(
     tableBody: HTMLElement, 
     data: TicketListItem[]): void {
@@ -55,7 +59,10 @@ export function renderTicketsList(
 
         const updateSpan = document.createElement('span');
         updateSpan.classList.add('ticket-date');
-        updateSpan.textContent = ticket.updated_at ? ticket.updated_at : ticket.created_at;
+        updateSpan.textContent = 
+            formatDateTime(ticket.updated_at) ? 
+            formatDateTime(ticket.updated_at) : 
+            formatDateTime(ticket.created_at);
 
         Tupdate.appendChild(updateSpan);
 

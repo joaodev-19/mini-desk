@@ -78,10 +78,10 @@
   </section>
 
   <!-- =============================================
-                     INDICADORES
-                ============================================== -->
+                    INDICADORES
+  ============================================== -->
 
-  <section class="statistics-grid">
+  <section class="statistics-grid" id="statistic-container">
     <article class="statistic-card">
       <div class="statistic-header">
         <span class="statistic-icon icon-open">
@@ -93,7 +93,7 @@
         <span class="statistic-label"> Em aberto </span>
       </div>
 
-      <strong class="statistic-value" id="ticket-count-open"> 0 </strong>
+      <strong class="statistic-value" data-open-ticket-counter id="ticket-count-open"> 0 </strong>
 
       <p>Aguardando início do atendimento.</p>
     </article>
@@ -109,7 +109,7 @@
         <span class="statistic-label"> Em análise </span>
       </div>
 
-      <strong class="statistic-value" id="ticket-count-analysis"> 0 </strong>
+      <strong class="statistic-value" data-analysis-ticket-counter id="ticket-count-analysis"> 0 </strong>
 
       <p>Sendo analisados pelo suporte.</p>
     </article>
@@ -125,7 +125,7 @@
         <span class="statistic-label"> Aguardando você </span>
       </div>
 
-      <strong class="statistic-value" id="ticket-count-waiting"> 0 </strong>
+      <strong class="statistic-value" data-waiting-ticket-counter id="ticket-count-waiting"> 0 </strong>
 
       <p>Precisam de uma nova resposta.</p>
     </article>
@@ -141,7 +141,7 @@
         <span class="statistic-label"> Resolvidos </span>
       </div>
 
-      <strong class="statistic-value" id="ticket-count-resolved"> 0 </strong>
+      <strong class="statistic-value" data-resolved-ticket-counter id="ticket-count-resolved"> 0 </strong>
 
       <p>Chamados solucionados recentemente.</p>
     </article>

@@ -1,7 +1,11 @@
-export function initializeSidebar(): void {
+import type { TicketListItem } from "../../api/tickets/types.js";
+
+export function initializeSidebar(data: TicketListItem[]): void {
     const menuButton = document.getElementById("menu-button") as HTMLElement;
     const sidebarClose = document.getElementById("sidebar-close") as HTMLElement;
     const sidebarOverlay = document.getElementById("sidebar-overlay") as HTMLElement;
+
+    const ticketCountEl = document.getElementById("sidebar-ticket-count") as HTMLElement;
 
     if (!menuButton || !sidebarClose || !sidebarOverlay) {
         return;
@@ -24,4 +28,6 @@ export function initializeSidebar(): void {
             closeSidebar();
         }
     });
+
+    ticketCountEl.textContent = String(data.length);
 }

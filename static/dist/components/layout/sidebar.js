@@ -1,7 +1,8 @@
-export function initializeSidebar() {
+export function initializeSidebar(data) {
     const menuButton = document.getElementById("menu-button");
     const sidebarClose = document.getElementById("sidebar-close");
     const sidebarOverlay = document.getElementById("sidebar-overlay");
+    const ticketCountEl = document.getElementById("sidebar-ticket-count");
     if (!menuButton || !sidebarClose || !sidebarOverlay) {
         return;
     }
@@ -19,5 +20,6 @@ export function initializeSidebar() {
             closeSidebar();
         }
     });
+    ticketCountEl.textContent = String(data.length);
 }
 //# sourceMappingURL=sidebar.js.map

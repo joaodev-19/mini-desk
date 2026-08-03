@@ -14,22 +14,39 @@ import type {
 } from "../../api/tickets/types.js";
 
 import {
-    renderTicketsList
+    renderTicketsList,
 } from "./renderListTickets.js";
 
+import {
+    renderDashboard,
+} from "./renderDashboard.js";
+
+import type { CurrentUser } from "../../api/users/types.js";
+
+import {
+    getCurrentUser,
+} from "../../api/users/api.js";
+
+import {
+    renderUser
+} from "./renderUser.js";
+
 document.addEventListener('DOMContentLoaded', async () => {
-    initializeSidebar();
-    
     const elements = {
+        welcomeName: document.getElementById('welcome-user-name') as HTMLElement,
         addModal: document.getElementById('new-ticket-modal') as HTMLElement,
         addForm: document.getElementById('new-ticket-form') as HTMLFormElement,
         ticketBody: document.getElementById("recent-tickets-body") as HTMLElement,
+
+        statisticContainer: document.getElementById('statistic-container') as HTMLElement,
     }
     
     const state: {
         tickets: TicketListItem[];
+        user: CurrentUser | null;
     } = {
         tickets: [],
+        user: null,
     };
     
     function closeModal(modal: HTMLElement): void {
@@ -38,13 +55,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         modalInstance.hide();
     }
-    
+
     async function init(): Promise<void> {
-        const response = await listTickets();
+        const ticketResponse = await listTickets();
+        const userResponse = await getCurrentUser();
         
-        state.tickets = response.data;
+        state.tickets = ticketResponse.data;
+        state.user = userResponse.data;
     
+        renderDashboard(elements.statisticContainer, state.tickets);
         renderTicketsList(elements.ticketBody, state.tickets);
+        renderUser(state.user);
     }
     
     elements.addForm?.addEventListener('submit', async (e) => {
@@ -62,4 +83,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     await init();
+    initializeSidebar(state.tickets);
 })

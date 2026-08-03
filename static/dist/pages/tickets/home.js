@@ -1,25 +1,34 @@
 import { initializeSidebar } from "../../components/layout/sidebar.js";
 import { handleCreateTicketSubmit, } from "../../shared/utils/form.js";
 import { getTicket, listTickets, } from "../../api/tickets/api.js";
-import { renderTicketsList } from "./renderListTickets.js";
+import { renderTicketsList, } from "./renderListTickets.js";
+import { renderDashboard, } from "./renderDashboard.js";
+import { getCurrentUser, } from "../../api/users/api.js";
+import { renderUser } from "./renderUser.js";
 document.addEventListener('DOMContentLoaded', async () => {
-    initializeSidebar();
     const elements = {
+        welcomeName: document.getElementById('welcome-user-name'),
         addModal: document.getElementById('new-ticket-modal'),
         addForm: document.getElementById('new-ticket-form'),
         ticketBody: document.getElementById("recent-tickets-body"),
+        statisticContainer: document.getElementById('statistic-container'),
     };
     const state = {
         tickets: [],
+        user: null,
     };
     function closeModal(modal) {
         const modalInstance = window.bootstrap.Modal.getOrCreateInstance(modal);
         modalInstance.hide();
     }
     async function init() {
-        const response = await listTickets();
-        state.tickets = response.data;
+        const ticketResponse = await listTickets();
+        const userResponse = await getCurrentUser();
+        state.tickets = ticketResponse.data;
+        state.user = userResponse.data;
+        renderDashboard(elements.statisticContainer, state.tickets);
         renderTicketsList(elements.ticketBody, state.tickets);
+        renderUser(state.user);
     }
     elements.addForm?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -31,5 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
     await init();
+    initializeSidebar(state.tickets);
 });
 //# sourceMappingURL=home.js.map

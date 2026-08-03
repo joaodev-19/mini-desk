@@ -32,12 +32,13 @@ class TicketListCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+       
         if request.user.is_support:
             tickets = Ticket.objects.all()
         else:
             tickets = Ticket.objects.filter(
-                created_by=request.user
-            )
+                created_by=request.user,
+            ).order_by("-updated_at")
 
         serializer = TicketListSerializer(
             tickets, 

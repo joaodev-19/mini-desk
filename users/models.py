@@ -25,9 +25,6 @@ class User(AbstractUser):
     notify_whatsapp = models.BooleanField(default=False)
     notify_email = models.BooleanField(default=True)
 
-    def __str__(self):
-        return f"{self.first_name} ({self.role})"
-    
     @property
     def is_support(self):
         return self.role == 'support'
@@ -35,3 +32,6 @@ class User(AbstractUser):
     @property
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    def __str__(self):
+        return f"{self.get_full_name or self.username}"
