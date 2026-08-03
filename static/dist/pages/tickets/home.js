@@ -1,4 +1,5 @@
 import { initializeSidebar } from "../../components/layout/sidebar.js";
+import { initializeTopbar } from "../../components/layout/topbar.js";
 import { handleCreateTicketSubmit, } from "../../shared/utils/form.js";
 import { getTicket, listTickets, } from "../../api/tickets/api.js";
 import { renderTicketsList, } from "./renderListTickets.js";
@@ -41,5 +42,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     await init();
     initializeSidebar(state.tickets);
+    initializeTopbar();
 });
 //# sourceMappingURL=home.js.map

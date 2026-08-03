@@ -136,6 +136,7 @@
                     id="login-form"
                     class="login-form"
                     method="post"
+                    action="{% url 'users:login' %}"
                 >
                     {% csrf_token %}
 

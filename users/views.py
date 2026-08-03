@@ -1,4 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import render
 
 from rest_framework import status
@@ -74,7 +76,8 @@ class CurrentUserAPIView(APIView):
         output_serializer = UserSerializer(updated_user)
 
         return Response(output_serializer.data, status=status.HTTP_200_OK)
+    
 
-
-def login_view(request):
-    return render(request, "users/login.html")
+class MiniDeskLoginView(LoginView):
+    template_name = "users/login.html"
+    redirect_authenticated_user = True

@@ -146,38 +146,38 @@ svg {
 
 
 .sidebar-header {
+    min-height: 112px;
+    padding: 26px 18px 20px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    overflow: visible;
+}
+
+.sidebar-brand {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
 
-    padding: 0 8px;
+    width: 100%;
+    margin: 0;
+
+    text-decoration: none;
 }
 
+.sidebar-brand-logo {
+    display: block;
 
-.brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 11px;
-}
+    width: 165px;
+    max-width: none;
+    height: auto;
 
+    margin: 0;
 
-.brand-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 40px;
-    height: 40px;
-
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 11px;
-
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
+    object-fit: contain;
+    object-position: left center;
 }
 
 

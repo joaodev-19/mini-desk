@@ -1,4 +1,5 @@
 import { initializeSidebar } from "../../components/layout/sidebar.js";
+import { initializeTopbar } from "../../components/layout/topbar.js";
 
 import {
     handleCreateTicketSubmit,
@@ -84,4 +85,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await init();
     initializeSidebar(state.tickets);
+    initializeTopbar();
 })

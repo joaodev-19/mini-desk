@@ -1,1 +1,1 @@
-{"version":3,"file":"topbar.js","sourceRoot":"","sources":["../../../../frontend/components/layout/topbar.ts"],"names":[],"mappings":""}
+{"version":3,"file":"topbar.js","sourceRoot":"","sources":["../../../../frontend/components/layout/topbar.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,wBAAwB,CAAC;AAEpD,MAAM,UAAU,gBAAgB;IAC5B,MAAM,YAAY,GAAG,QAAQ,CAAC,cAAc,CAAC,eAAe,CAAC,CAAC;IAE9D,YAAY,EAAE,gBAAgB,CAAC,OAAO,EAAE,KAAK,IAAI,EAAE;QAC/C,MAAM,UAAU,EAAE,CAAC;QAEnB,MAAM,CAAC,QAAQ,CAAC,IAAI,GAAG,eAAe,CAAC;IAC3C,CAAC,CAAC,CAAA;AACN,CAAC"}

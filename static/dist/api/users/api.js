@@ -7,4 +7,10 @@ export async function getCurrentUser() {
     };
     return request(config);
 }
+export function logoutUser() {
+    return request({
+        url: "/api/auth/logout/",
+        method: "POST",
+    });
+}
 //# sourceMappingURL=api.js.map

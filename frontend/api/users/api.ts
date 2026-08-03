@@ -16,3 +16,10 @@ export async function getCurrentUser(): Promise<ApiResponse<CurrentUser>> {
 
     return request<CurrentUser>(config);
 }
+
+export function logoutUser(): Promise<ApiResponse<null>> {
+    return request<null>({
+        url: "/api/auth/logout/",
+        method: "POST",
+    });
+}

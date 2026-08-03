@@ -1,13 +1,17 @@
+{% load static %}
+
 <!-- =====================================================
              SIDEBAR
 ====================================================== -->
 
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <a href="/" class="brand">
-      <span class="brand-icon"> MD </span>
-
-      <span class="brand-name"> Mini Desk </span>
+    <a href="{% url 'tickets:home' %}" class="sidebar-brand">
+        <img
+            class="sidebar-brand-logo"
+            src="{% static 'imgs/mini-desk-logo-white.svg' %}"
+            alt="Mini Desk"
+        >
     </a>
 
     <button

@@ -93,13 +93,17 @@ AUTH_USER_MODEL = 'users.User'
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
+LOGIN_URL = "users:login"
+LOGIN_REDIRECT_URL = "tickets:home"
+LOGOUT_REDIRECT_URL = "users:login"
 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
@@ -7,6 +8,8 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+
 
 User = get_user_model()
 
@@ -25,7 +28,6 @@ from .serializers import (
     TicketAttachmentSerializer,
     TicketCreateAttachmentSerializer,
 )
-
 
 class TicketListCreateAPIView(APIView):
     authentication_classes = [SessionAuthentication]
@@ -59,7 +61,6 @@ class TicketListCreateAPIView(APIView):
         output_serializer = TicketDetailSerializer(ticket)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
-    
 
 class TicketDetailAPIView(APIView):
     authentication_classes = [SessionAuthentication]
@@ -173,6 +174,8 @@ class TicketAttachmentCreateAPIView(APIView):
         output_serializer = TicketAttachmentSerializer(attachment)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
-    
+
+
+@login_required
 def home_view(request):
     return render(request, 'tickets/index.html')

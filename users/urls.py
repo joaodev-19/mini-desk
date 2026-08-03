@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import login_view
+from .views import MiniDeskLoginView
 
 app_name = "users"
 
 urlpatterns = [
-    path('login/', login_view, name='login'),
+    path('login/', MiniDeskLoginView.as_view(), name='login'),
 ]
