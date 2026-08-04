@@ -1,8 +1,8 @@
-export function initializeSidebar(data) {
+import { listTickets } from "../../api/tickets/api.js";
+export function initializeSidebar() {
     const menuButton = document.getElementById("menu-button");
     const sidebarClose = document.getElementById("sidebar-close");
     const sidebarOverlay = document.getElementById("sidebar-overlay");
-    const ticketCountEl = document.getElementById("sidebar-ticket-count");
     if (!menuButton || !sidebarClose || !sidebarOverlay) {
         return;
     }
@@ -20,6 +20,13 @@ export function initializeSidebar(data) {
             closeSidebar();
         }
     });
-    ticketCountEl.textContent = String(data.length);
+}
+export async function refreshSidebarTicketCount() {
+    const ticketCountEl = document.getElementById("sidebar-ticket-count");
+    if (!ticketCountEl) {
+        return;
+    }
+    const response = await listTickets();
+    ticketCountEl.textContent = String(response.data.length);
 }
 //# sourceMappingURL=sidebar.js.map

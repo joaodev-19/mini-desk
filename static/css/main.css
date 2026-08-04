@@ -1100,7 +1100,6 @@ svg {
     line-height: 1.55;
 }
 
-
 .text-link {
     display: inline-flex;
     flex: 0 0 auto;
@@ -1127,7 +1126,10 @@ svg {
 
 .tickets-table-wrapper {
     width: 100%;
+    max-height: 535px;
+
     overflow-x: auto;
+    overflow-y: auto;
 }
 
 
@@ -1142,6 +1144,10 @@ svg {
     padding: 13px 18px;
 
     border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+    z-index: 2;
 
     background: var(--surface-soft);
     color: var(--text-light);

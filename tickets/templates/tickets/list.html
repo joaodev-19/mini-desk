@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Meus chamados | Mini Desk{% endblock %}
+
+{% block topbar %}
+ {% include "partials/topbar.html" with page_context="Meus chamados" page_title="Área de trabalho"%}
+{% endblock %}
+
+{% block extra_css %}
+    <link rel=stylesheet href="{% static 'css/tickets-list.css' %}"> 
+{% endblock %}
+
+{% block content %}
+<main class="tickets-page" id="tickets-page">
+
+    <section class="page-heading">
+        <div>
+            <span class="page-eyebrow">Central de atendimento</span>
+            <h1>Meus chamados</h1>
+            <p>
+                Consulte, filtre e acompanhe todas as suas solicitações.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            class="primary-button"
+            data-bs-toggle="modal"
+            data-bs-target="#new-ticket-modal"
+        >
+            <i class="bi bi-plus-lg" aria-hidden="true"></i>
+            Novo chamado
+        </button>
+    </section>
+
+
+    <section
+        class="tickets-list-card"
+        aria-labelledby="tickets-list-title"
+    >
+        <header class="tickets-list-header">
+            <div>
+                <span class="section-eyebrow">Atendimentos</span>
+
+                <h2 id="tickets-list-title">
+                    Todos os chamados
+                </h2>
+
+                <p id="tickets-list-description">
+                    Visualize o andamento e as informações dos seus chamados.
+                </p>
+            </div>
+
+            <span
+                class="tickets-result-count"
+                id="tickets-result-count"
+            >
+                0 chamados
+            </span>
+        </header>
+
+
+        <div class="tickets-toolbar">
+
+            <div class="tickets-search">
+                <label for="ticket-search">
+                    Buscar chamado
+                </label>
+
+                <div class="search-input-wrapper">
+                    <i class="bi bi-search" aria-hidden="true"></i>
+
+                    <input
+                        type="search"
+                        id="ticket-search"
+                        name="search"
+                        placeholder="Buscar por título ou código..."
+                        autocomplete="off"
+                    >
+                </div>
+            </div>
+
+
+            <div class="tickets-filter">
+                <label for="ticket-status-filter">
+                    Status
+                </label>
+
+                <select id="ticket-status-filter" name="status">
+                    <option value="">Todos os status</option>
+                    <option value="open">Em aberto</option>
+                    <option value="in_analysis">Em análise</option>
+                    <option value="waiting_user">Aguardando você</option>
+                    <option value="resolved">Resolvido</option>
+                    <option value="closed">Fechado</option>
+                </select>
+            </div>
+
+
+            <div class="tickets-filter">
+                <label for="ticket-module-filter">
+                    Módulo
+                </label>
+
+                <select id="ticket-module-filter" name="module">
+                    <option value="">Todos os módulos</option>
+                    <option value="clients">Clientes</option>
+                    <option value="processes">Processos</option>
+                    <option value="calendar">Calendário</option>
+                    <option value="documents">Documentos</option>
+                    <option value="users">Usuários</option>
+                    <option value="others">Outros</option>
+                </select>
+            </div>
+
+
+            <div class="tickets-filter">
+                <label for="ticket-order-filter">
+                    Ordenar por
+                </label>
+
+                <select id="ticket-order-filter" name="order">
+                    <option value="recent">Mais recentes</option>
+                    <option value="oldest">Mais antigos</option>
+                    <option value="updated">Atualizados recentemente</option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div
+            class="tickets-feedback tickets-loading"
+            id="tickets-loading"
+        >
+            <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">
+                    Carregando chamados...
+                </span>
+            </div>
+
+            <span>Carregando chamados...</span>
+        </div>
+
+
+        <div
+            class="tickets-feedback tickets-error"
+            id="tickets-error"
+            hidden
+        >
+            <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+
+            <div>
+                <strong>Não foi possível carregar os chamados.</strong>
+                <p>Tente atualizar a página novamente.</p>
+            </div>
+
+            <button
+                type="button"
+                class="secondary-button"
+                id="retry-tickets-button"
+            >
+                Tentar novamente
+            </button>
+        </div>
+
+
+        <div
+            class="tickets-feedback tickets-empty"
+            id="tickets-empty"
+            hidden
+        >
+            <i class="bi bi-inbox" aria-hidden="true"></i>
+
+            <div>
+                <strong>Nenhum chamado encontrado.</strong>
+                <p>
+                    Crie seu primeiro chamado ou altere os filtros utilizados.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="primary-button"
+                data-bs-toggle="modal"
+                data-bs-target="#new-ticket-modal"
+            >
+                Criar chamado
+            </button>
+        </div>
+
+
+        <div
+            class="tickets-table-wrapper"
+            id="tickets-table-wrapper"
+            hidden
+        >
+            <table
+                class="tickets-table"
+                aria-describedby="tickets-list-description"
+            >
+                <thead>
+                    <tr>
+                        <th scope="col">Chamado</th>
+                        <th scope="col">Módulo</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Criado em</th>
+                        <th scope="col">Atualizado</th>
+                        <th scope="col">
+                            <span class="visually-hidden">Ações</span>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="tickets-list-body">
+                    <!-- Linhas geradas pelo TypeScript -->
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}
+
+{% block page_js %}
+<script
+    type="module"
+    src="{% static 'dist/pages/tickets/list.js' %}"
+></script>
+{% endblock %}

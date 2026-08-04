@@ -1,21 +1,20 @@
+import { listTickets } from "../../api/tickets/api.js";
 import type { TicketListItem } from "../../api/tickets/types.js";
 
-export function initializeSidebar(data: TicketListItem[]): void {
-    const menuButton = document.getElementById("menu-button") as HTMLElement;
-    const sidebarClose = document.getElementById("sidebar-close") as HTMLElement;
-    const sidebarOverlay = document.getElementById("sidebar-overlay") as HTMLElement;
-
-    const ticketCountEl = document.getElementById("sidebar-ticket-count") as HTMLElement;
+export function initializeSidebar(): void {
+    const menuButton = document.getElementById("menu-button");
+    const sidebarClose = document.getElementById("sidebar-close");
+    const sidebarOverlay = document.getElementById("sidebar-overlay");
 
     if (!menuButton || !sidebarClose || !sidebarOverlay) {
         return;
     }
 
-    function openSidebar() {
+    function openSidebar(): void {
         document.body.classList.add("sidebar-open");
     }
 
-    function closeSidebar() {
+    function closeSidebar(): void {
         document.body.classList.remove("sidebar-open");
     }
 
@@ -28,6 +27,18 @@ export function initializeSidebar(data: TicketListItem[]): void {
             closeSidebar();
         }
     });
+}
 
-    ticketCountEl.textContent = String(data.length);
+export async function refreshSidebarTicketCount(): Promise<void> {
+    const ticketCountEl = document.getElementById(
+        "sidebar-ticket-count"
+    );
+
+    if (!ticketCountEl) {
+        return;
+    }
+
+    const response = await listTickets();
+
+    ticketCountEl.textContent = String(response.data.length);
 }

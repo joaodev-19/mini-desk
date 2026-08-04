@@ -1,9 +1,10 @@
-import { initializeSidebar } from "../../components/layout/sidebar.js";
-import { initializeTopbar } from "../../components/layout/topbar.js";
-
 import {
     handleCreateTicketSubmit,
 } from "../../shared/utils/form.js";
+
+import {
+    refreshSidebarTicketCount,
+} from "../../components/layout/sidebar.js";
 
 import {
     getTicket,
@@ -78,12 +79,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             elements.addForm.reset();
             closeModal(elements.addModal);
 
-            await init();
+            await Promise.all([
+                init(),
+                refreshSidebarTicketCount(),
+            ]);
         }
     
     });
 
     await init();
-    initializeSidebar(state.tickets);
-    initializeTopbar();
 })

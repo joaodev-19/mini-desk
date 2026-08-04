@@ -27,7 +27,7 @@
   <nav class="sidebar-navigation">
     <span class="navigation-label"> Navegação </span>
 
-    <a href="/" class="navigation-item active">
+    <a href="{% url 'tickets:home' %}" class="navigation-item {% if request.resolver_match.view_name == 'tickets:home' %}active{% endif %}">
       <span class="navigation-icon">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path
@@ -39,7 +39,7 @@
       <span> Visão geral </span>
     </a>
 
-    <a href="#" class="navigation-item">
+    <a href="{% url 'tickets:list' %}" class="navigation-item {% if request.resolver_match.view_name == 'tickets:list' %}active{% endif %}">
       <span class="navigation-icon">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path

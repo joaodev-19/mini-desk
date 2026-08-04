@@ -179,3 +179,7 @@ class TicketAttachmentCreateAPIView(APIView):
 @login_required
 def home_view(request):
     return render(request, 'tickets/index.html')
+
+@login_required
+def list_view(request):
+    return render(request, 'tickets/list.html')
