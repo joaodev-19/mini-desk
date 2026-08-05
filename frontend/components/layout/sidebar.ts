@@ -1,5 +1,4 @@
 import { listTickets } from "../../api/tickets/api.js";
-import type { TicketListItem } from "../../api/tickets/types.js";
 
 export function initializeSidebar(): void {
     const menuButton = document.getElementById("menu-button");

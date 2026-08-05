@@ -1,19 +1,19 @@
 import {
     handleCreateTicketSubmit,
-} from "../../shared/utils/form.js";
+} from "../../../shared/utils/form.js";
 
 import {
     refreshSidebarTicketCount,
-} from "../../components/layout/sidebar.js";
+} from "../../../components/layout/sidebar.js";
 
 import {
     getTicket,
     listTickets,
-} from "../../api/tickets/api.js";
+} from "../../../api/tickets/api.js";
 
 import type {
     TicketListItem,
-} from "../../api/tickets/types.js";
+} from "../../../api/tickets/types.js";
 
 import {
     renderTicketsList,
@@ -21,17 +21,13 @@ import {
 
 import {
     renderDashboard,
-} from "./renderDashboard.js";
+} from "../renderDashboard.js";
 
-import type { CurrentUser } from "../../api/users/types.js";
+import type { CurrentUser } from "../../../api/users/types.js";
 
 import {
     getCurrentUser,
-} from "../../api/users/api.js";
-
-import {
-    renderUser
-} from "./renderUser.js";
+} from "../../../api/users/api.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     const elements = {
@@ -67,7 +63,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         renderDashboard(elements.statisticContainer, state.tickets);
         renderTicketsList(elements.ticketBody, state.tickets);
-        renderUser(state.user);
     }
     
     elements.addForm?.addEventListener('submit', async (e) => {

@@ -1,4 +1,4 @@
-import type { StatusChoices, TicketListItem } from "../../api/tickets/types.js";
+import type { StatusChoices, TicketListItem } from "../../../api/tickets/types.js";
 
 function countTicketsByStatus(list: TicketListItem[], status: StatusChoices): number {
     return list.filter((ticket) => ticket.status === status).length;

@@ -1,9 +1,9 @@
-import { handleCreateTicketSubmit, } from "../../shared/utils/form.js";
-import { refreshSidebarTicketCount, } from "../../components/layout/sidebar.js";
-import { getTicket, listTickets, } from "../../api/tickets/api.js";
+import { handleCreateTicketSubmit, } from "../../../shared/utils/form.js";
+import { refreshSidebarTicketCount, } from "../../../components/layout/sidebar.js";
+import { getTicket, listTickets, } from "../../../api/tickets/api.js";
 import { renderTicketsList, } from "./renderListTickets.js";
-import { renderDashboard, } from "./renderDashboard.js";
-import { getCurrentUser, } from "../../api/users/api.js";
+import { renderDashboard, } from "../renderDashboard.js";
+import { getCurrentUser, } from "../../../api/users/api.js";
 document.addEventListener('DOMContentLoaded', async () => {
     const elements = {
         welcomeName: document.getElementById('welcome-user-name'),

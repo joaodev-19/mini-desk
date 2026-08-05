@@ -11,7 +11,7 @@
 
 
 /* ==================================================
-   Cabeçalho
+   Cabeçalho da página
 ================================================== */
 
 .page-heading {
@@ -63,7 +63,7 @@
 
 
 /* ==================================================
-   Card principal
+   Card principal da listagem
 ================================================== */
 
 .tickets-list-card {
@@ -73,6 +73,7 @@
     border-radius: 18px;
 
     background: var(--surface, #ffffff);
+
     box-shadow: 0 14px 40px rgb(24 25 38 / 4%);
 }
 
@@ -128,7 +129,9 @@
 
 .tickets-toolbar {
     display: grid;
-    grid-template-columns: minmax(240px, 1fr) repeat(3, minmax(150px, 190px));
+    grid-template-columns:
+        minmax(240px, 1fr)
+        repeat(3, minmax(150px, 190px));
     gap: 14px;
 
     padding: 20px 28px;
@@ -170,6 +173,7 @@
     font-size: 14px;
 
     transform: translateY(-50%);
+
     pointer-events: none;
 }
 
@@ -287,7 +291,7 @@
 
 
 /* ==================================================
-   Tabela
+   Container e tabela
 ================================================== */
 
 .tickets-table-wrapper {
@@ -349,26 +353,35 @@
     padding-right: 28px;
 }
 
-.tickets-table tbody tr {
+
+/* ==================================================
+   Linha do chamado
+================================================== */
+
+.ticket-row {
     cursor: pointer;
 
-    transition: background-color 140ms ease;
+    transition:
+        background-color 140ms ease,
+        box-shadow 140ms ease;
 }
 
-.tickets-table tbody tr:hover {
+.ticket-row:hover {
     background: #fafaff;
 }
 
-.tickets-table tbody tr:last-child td {
+.ticket-row:last-child td {
     border-bottom: none;
 }
 
 
 /* ==================================================
-   Conteúdo das células
+   Identificação do chamado
 ================================================== */
 
 .ticket-identification {
+    min-width: 0;
+
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -377,11 +390,13 @@
 .ticket-code {
     color: var(--text-light, #9092a2);
 
-    font-size: 10px;
-    font-weight: 650;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
-.ticket-identification strong {
+.ticket-title {
     max-width: 360px;
 
     overflow: hidden;
@@ -389,18 +404,36 @@
     color: var(--text, #171821);
 
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 750;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.module-tag,
-.creator-tag {
+.ticket-description {
+    max-width: 420px;
+    margin: 1px 0 0;
+
+    overflow: hidden;
+
+    color: var(--text-light, #77798a);
+
+    font-size: 10px;
+    line-height: 1.45;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ==================================================
+   Módulo e datas
+================================================== */
+
+.module-tag {
     display: inline-flex;
     align-items: center;
 
     width: fit-content;
-    padding: 6px 9px;
+    padding: 5px 8px;
 
     border: 1px solid var(--border, #dedfe8);
     border-radius: 7px;
@@ -408,7 +441,7 @@
     background: var(--surface-soft, #fafafd);
     color: #585a69;
 
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 650;
     white-space: nowrap;
 }
@@ -422,7 +455,7 @@
 
 
 /* ==================================================
-   Status
+   Badge de status
 ================================================== */
 
 .status-badge {
@@ -431,12 +464,12 @@
     gap: 6px;
 
     width: fit-content;
-    padding: 6px 10px;
+    padding: 5px 9px;
 
     border-radius: 999px;
 
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 9px;
+    font-weight: 750;
     white-space: nowrap;
 }
 
@@ -445,6 +478,8 @@
 
     width: 5px;
     height: 5px;
+
+    flex-shrink: 0;
 
     border-radius: 50%;
 
@@ -478,7 +513,7 @@
 
 
 /* ==================================================
-   Botão de ação da linha
+   Ação da linha
 ================================================== */
 
 .ticket-row-action {
@@ -494,24 +529,27 @@
     background: var(--surface, #ffffff);
     color: var(--text-light, #77798a);
 
-    cursor: pointer;
+    text-decoration: none;
 
     transition:
+        border-color 140ms ease,
         background-color 140ms ease,
         color 140ms ease,
-        border-color 140ms ease;
+        transform 140ms ease;
 }
 
 .ticket-row-action:hover {
     border-color: var(--primary, #6d45ff);
 
-    background: rgb(109 69 255 / 7%);
+    background: rgb(109 69 255 / 8%);
     color: var(--primary, #6d45ff);
+
+    transform: translateX(2px);
 }
 
 
 /* ==================================================
-   Responsividade
+   Responsividade — tablets
 ================================================== */
 
 @media (max-width: 1100px) {
@@ -525,6 +563,10 @@
 }
 
 
+/* ==================================================
+   Responsividade — celulares
+================================================== */
+
 @media (max-width: 768px) {
     .tickets-page {
         padding: 22px 16px;
@@ -537,6 +579,7 @@
 
     .page-heading .primary-button {
         width: 100%;
+
         justify-content: center;
     }
 
@@ -546,6 +589,7 @@
 
     .tickets-toolbar {
         grid-template-columns: 1fr;
+
         padding: 18px;
     }
 
@@ -559,6 +603,16 @@
 
     .tickets-table-wrapper {
         max-height: 560px;
+    }
+
+    .tickets-table th:first-child,
+    .tickets-table td:first-child {
+        padding-left: 18px;
+    }
+
+    .tickets-table th:last-child,
+    .tickets-table td:last-child {
+        padding-right: 18px;
     }
 }
 
