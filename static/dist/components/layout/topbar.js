@@ -21,11 +21,9 @@ export async function renderUser() {
     const userInitialsEl = document.getElementById('current-user-initials');
     const userFirstNameEl = document.getElementById('current-user-name');
     const userRoleEl = document.getElementById('current-user-role');
-    const welcomeUserName = document.getElementById('welcome-user-name');
     userInitialsEl.textContent = getInitials(user.full_name);
     userFirstNameEl.textContent = user.first_name;
     userRoleEl.textContent = user.role_display;
-    welcomeUserName.textContent = user.first_name;
 }
 export async function initializeTopbar() {
     const logoutButton = document.getElementById('logout-button');

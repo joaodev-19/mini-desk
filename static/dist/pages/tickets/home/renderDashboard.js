@@ -2,6 +2,8 @@ function countTicketsByStatus(list, status) {
     return list.filter((ticket) => ticket.status === status).length;
 }
 export function renderDashboard(dashboardContainer, data) {
+    if (!dashboardContainer)
+        return;
     const openTicketCounter = dashboardContainer.querySelector('[data-open-ticket-counter]');
     const analysisTicketCounter = dashboardContainer.querySelector('[data-analysis-ticket-counter]');
     const waitingTicketCounter = dashboardContainer.querySelector('[data-waiting-ticket-counter]');

@@ -1,33 +1,28 @@
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import get_object_or_404, render
 from rest_framework import status
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-
-
 User = get_user_model()
 
 from .models import Ticket
-
 from .serializers import (
-    TicketListSerializer,
+    TicketAttachmentSerializer,
+    TicketCommentSerializer,
+    TicketContentUpdateSerializer,
+    TicketCreateAttachmentSerializer,
+    TicketCreateCommentSerializer,
     TicketCreateSerializer,
     TicketDetailSerializer,
-
-    TicketContentUpdateSerializer,
+    TicketListSerializer,
     TicketSupportUpdateSerializer,
-
-    TicketCommentSerializer,
-    TicketCreateCommentSerializer,
-    TicketAttachmentSerializer,
-    TicketCreateAttachmentSerializer,
 )
+
 
 class TicketListCreateAPIView(APIView):
     authentication_classes = [SessionAuthentication]
@@ -61,6 +56,29 @@ class TicketListCreateAPIView(APIView):
         output_serializer = TicketDetailSerializer(ticket)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
+
+class MyTicketListAPIView(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.is_support:
+            tickets = Ticket.objects.filter(
+                assigned_to=request.user,
+            )
+        else:
+            tickets = Ticket.objects.filter(
+                created_by=request.user,
+            )
+
+        tickets = tickets.order_by("-updated_at")
+
+        serializer = TicketListSerializer(
+            tickets,
+            many=True,
+        )
+
+        return Response(serializer.data)
 
 class TicketDetailAPIView(APIView):
     authentication_classes = [SessionAuthentication]

@@ -26,6 +26,16 @@ export function listTickets(): Promise<ApiResponse<TicketListItem[]>> {
     )
 }
 
+export function myListTickets(): Promise<ApiResponse<TicketListItem[]>> {
+    const config: HttpRequestConfig = {
+        url: `${BASE_URL}mine/`,
+        method: 'GET',
+    }
+    return request<TicketListItem[]>(
+        config
+    )
+}
+
 export function getTicket(id: number): Promise<ApiResponse<TicketDetail>> {
     const config: HttpRequestConfig = {
         url: `${BASE_URL}${id}/`,

@@ -5,8 +5,11 @@ function countTicketsByStatus(list: TicketListItem[], status: StatusChoices): nu
 }
 
 export function renderDashboard(
-    dashboardContainer: HTMLElement,
-    data: TicketListItem[]): void {
+    dashboardContainer: HTMLElement | null,
+    data: TicketListItem[],
+    ): void {
+
+    if (!dashboardContainer) return;
 
     const openTicketCounter = dashboardContainer.querySelector('[data-open-ticket-counter]');
     const analysisTicketCounter = dashboardContainer.querySelector('[data-analysis-ticket-counter]');

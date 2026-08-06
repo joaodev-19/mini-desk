@@ -3,86 +3,191 @@ import type {
 } from "../../../api/tickets/types.js";
 
 import {
-    formatDateTime
+    formatDateTime,
 } from "../../../shared/utils/utils.js";
 
-export function renderTicketsList(
-    tableBody: HTMLElement, 
-    data: TicketListItem[]): void {
 
+export function renderTicketsList(
+    tableBody: HTMLElement,
+    data: TicketListItem[],
+): void {
     tableBody.replaceChildren();
 
     const fragment = document.createDocumentFragment();
 
-    data.forEach(ticket => {
-        const row = document.createElement('tr');
-        row.dataset.action = 'open-detail';
-        row.classList.add('clickable-row');
+    if (data.length === 0) {
+        const row = document.createElement("tr");
+        row.classList.add("ticket-empty-row");
 
-        const Tticket = document.createElement('td');
-        Tticket.dataset.label = "Chamado"
+        const messageCell = document.createElement("td");
+        messageCell.colSpan = 5;
+        messageCell.classList.add("ticket-empty-cell");
+        messageCell.textContent =
+            "Nenhum chamado foi iniciado ainda.";
 
-        const ticketDiv = document.createElement('div');
-        ticketDiv.classList.add('ticket-identification');
+        row.appendChild(messageCell);
+        tableBody.appendChild(row);
 
-        const ticketSpan = document.createElement('span');
-        ticketSpan.classList.add('ticket-code');
-        ticketSpan.textContent = `${ticket.id}`;
+        return;
+    }
 
-        const ticketStrong = document.createElement('strong');
-        ticketStrong.textContent = ticket.title;
+    data.forEach((ticket) => {
+        const ticketUrl = `/tickets/${ticket.id}/`;
 
-        ticketDiv.appendChild(ticketSpan);
-        ticketDiv.appendChild(ticketStrong);
-        Tticket.appendChild(ticketDiv);
+        const row = document.createElement("tr");
 
-        const Tmodule = document.createElement('td');
-        Tmodule.dataset.label = "Módulo";
+        row.classList.add("ticket-row");
+        row.dataset.ticketId = ticket.id.toString();
+        row.dataset.href = ticketUrl;
 
-        const moduleSpan = document.createElement('span');
-        moduleSpan.classList.add('module-tag');
-        moduleSpan.textContent = ticket.module_display;
 
-        Tmodule.appendChild(moduleSpan);
+        /* ==================================================
+           Chamado
+        ================================================== */
 
-        const Tstatus = document.createElement('td');
-        Tstatus.dataset.label = 'Status'
+        const ticketCell = document.createElement("td");
+        ticketCell.dataset.label = "Chamado";
 
-        const statusSpan = document.createElement('span');
-        statusSpan.classList.add('status-badge', `status-${ticket.status}`);
-        statusSpan.textContent = ticket.status_display;
+        const ticketIdentification = document.createElement("div");
+        ticketIdentification.classList.add(
+            "ticket-identification",
+        );
 
-        Tstatus.appendChild(statusSpan);
+        const ticketCode = document.createElement("span");
+        ticketCode.classList.add("ticket-code");
+        ticketCode.textContent = `Chamado #${ticket.id}`;
 
-        const Tupdate = document.createElement('td');
-        Tupdate.dataset.label = 'Atualizado';
+        const ticketTitle = document.createElement("strong");
+        ticketTitle.classList.add("ticket-title");
+        ticketTitle.textContent = ticket.title;
 
-        const updateSpan = document.createElement('span');
-        updateSpan.classList.add('ticket-date');
-        updateSpan.textContent = 
-            formatDateTime(ticket.updated_at) ? 
-            formatDateTime(ticket.updated_at) : 
-            formatDateTime(ticket.created_at);
+        const ticketDescription = document.createElement("p");
+        ticketDescription.classList.add(
+            "ticket-description",
+        );
+        ticketDescription.textContent = ticket.description;
 
-        Tupdate.appendChild(updateSpan);
+        ticketIdentification.append(
+            ticketCode,
+            ticketTitle,
+            ticketDescription,
+        );
 
-        const Tcreator = document.createElement('td');
-        Tcreator.dataset.label = 'Criado_por';
+        ticketCell.appendChild(ticketIdentification);
 
-        const creatorSpan = document.createElement('span');
-        creatorSpan.classList.add('module-tag');
-        creatorSpan.textContent = ticket.created_by;
 
-        Tcreator.appendChild(creatorSpan);
+        /* ==================================================
+           Módulo
+        ================================================== */
 
-        row.appendChild(Tticket);
-        row.appendChild(Tmodule);
-        row.appendChild(Tstatus);
-        row.appendChild(Tupdate);
-        row.appendChild(Tcreator);
+        const moduleCell = document.createElement("td");
+        moduleCell.dataset.label = "Módulo";
+
+        const moduleTag = document.createElement("span");
+        moduleTag.classList.add("module-tag");
+        moduleTag.textContent = ticket.module_display;
+
+        moduleCell.appendChild(moduleTag);
+
+
+        /* ==================================================
+           Status
+        ================================================== */
+
+        const statusCell = document.createElement("td");
+        statusCell.dataset.label = "Status";
+
+        const statusBadge = document.createElement("span");
+
+        statusBadge.classList.add(
+            "status-badge",
+            `status-${ticket.status}`,
+        );
+
+        statusBadge.textContent = ticket.status_display;
+
+        statusCell.appendChild(statusBadge);
+
+
+        /* ==================================================
+           Atualizado
+        ================================================== */
+
+        const updatedAtCell = document.createElement("td");
+        updatedAtCell.dataset.label = "Atualizado";
+
+        const updatedAtTime = document.createElement("time");
+        updatedAtTime.classList.add("ticket-date");
+
+        const updatedAt =
+            ticket.updated_at || ticket.created_at;
+
+        updatedAtTime.dateTime = updatedAt;
+        updatedAtTime.textContent = formatDateTime(updatedAt);
+
+        updatedAtCell.appendChild(updatedAtTime);
+
+
+        /* ==================================================
+           Criado por
+        ================================================== */
+
+        const creatorCell = document.createElement("td");
+        creatorCell.dataset.label = "Criado por";
+
+        const creatorTag = document.createElement("span");
+        creatorTag.classList.add("creator-tag");
+        creatorTag.textContent = ticket.created_by;
+
+        creatorCell.appendChild(creatorTag);
+
+
+        /* ==================================================
+           Montagem
+        ================================================== */
+
+        row.append(
+            ticketCell,
+            moduleCell,
+            statusCell,
+            updatedAtCell,
+            creatorCell,
+        );
 
         fragment.appendChild(row);
     });
 
     tableBody.appendChild(fragment);
+}
+
+export function initializeTicketRowNavigation(
+    tableBody: HTMLElement,
+): void {
+    tableBody.addEventListener("click", (event) => {
+        const target = event.target;
+
+        if (!(target instanceof HTMLElement)) {
+            return;
+        }
+
+        if (
+            target.closest(
+                "a, button, input, select, textarea, label",
+            )
+        ) {
+            return;
+        }
+
+        const row = target.closest<HTMLTableRowElement>(
+            ".ticket-row[data-href]",
+        );
+
+        const href = row?.dataset.href;
+
+        if (!href) {
+            return;
+        }
+
+        window.location.assign(href);
+    });
 }

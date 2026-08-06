@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils import timezone
 
@@ -23,15 +23,37 @@ class Command(BaseCommand):
             help="Remove os dados anteriores da seed antes de criar novos.",
         )
 
+        parser.add_argument(
+            "--username",
+            default="joaoadmin",
+            help=(
+                "Username do usuário que deve receber os tickets da seed. "
+                "Padrão: joaoadmin."
+            ),
+        )
+
     @transaction.atomic
     def handle(self, *args, **options):
         if options["clear"]:
             self.clear_seed_data()
 
+        target_username = options["username"]
+
+        try:
+            target_user = User.objects.get(
+                username=target_username,
+            )
+        except User.DoesNotExist as error:
+            raise CommandError(
+                f'O usuário "{target_username}" não existe.'
+            ) from error
+
         clients, supports = self.create_users()
+
         tickets = self.create_tickets(
             clients=clients,
             supports=supports,
+            target_user=target_user,
             amount=20,
         )
 
@@ -39,6 +61,7 @@ class Command(BaseCommand):
             tickets=tickets,
             clients=clients,
             supports=supports,
+            target_user=target_user,
             amount=20,
         )
 
@@ -46,14 +69,16 @@ class Command(BaseCommand):
             tickets=tickets,
             clients=clients,
             supports=supports,
+            target_user=target_user,
             amount=20,
         )
 
         self.stdout.write(
             self.style.SUCCESS(
                 "Seed concluída: "
-                f"{len(clients) + len(supports)} usuários, "
-                "20 tickets, 20 comentários e 20 anexos."
+                f"{len(clients) + len(supports)} usuários de teste, "
+                "20 tickets, 20 comentários e 20 anexos. "
+                f'Tickets vinculados a "{target_user.username}".'
             )
         )
 
@@ -62,6 +87,18 @@ class Command(BaseCommand):
         self.stdout.write("Cliente: cliente1 / teste123")
         self.stdout.write("Suporte: suporte1 / teste123")
         self.stdout.write("Admin: admin_seed / teste123")
+        self.stdout.write("")
+        self.stdout.write(
+            f"Usuário principal da seed: {target_user.username}"
+        )
+        self.stdout.write(
+            "Vínculo utilizado: "
+            + (
+                "assigned_to"
+                if target_user.is_support
+                else "created_by"
+            )
+        )
 
     def clear_seed_data(self):
         """
@@ -208,6 +245,7 @@ class Command(BaseCommand):
         *,
         clients,
         supports,
+        target_user,
         amount,
     ):
         titles = [
@@ -264,9 +302,14 @@ class Command(BaseCommand):
                 hours=random.randint(0, 23),
             )
 
-            assigned_to = random.choice(
-                [None, *supports]
-            )
+            if target_user.is_support:
+                created_by = random.choice(clients)
+                assigned_to = target_user
+            else:
+                created_by = target_user
+                assigned_to = random.choice(
+                    [None, *supports]
+                )
 
             resolved_at = None
 
@@ -283,7 +326,7 @@ class Command(BaseCommand):
                 description=random.choice(descriptions),
                 module=random.choice(modules),
                 status=status_value,
-                created_by=random.choice(clients),
+                created_by=created_by,
                 assigned_to=assigned_to,
                 created_at=created_at,
                 resolved_at=resolved_at,
@@ -299,6 +342,7 @@ class Command(BaseCommand):
         tickets,
         clients,
         supports,
+        target_user,
         amount,
     ):
         contents = [
@@ -314,7 +358,11 @@ class Command(BaseCommand):
             "Consegui reproduzir o erro no ambiente de teste.",
         ]
 
-        possible_authors = [*clients, *supports]
+        possible_authors = [
+            *clients,
+            *supports,
+            target_user,
+        ]
 
         for _ in range(amount):
             ticket = random.choice(tickets)
@@ -337,9 +385,14 @@ class Command(BaseCommand):
         tickets,
         clients,
         supports,
+        target_user,
         amount,
     ):
-        possible_uploaders = [*clients, *supports]
+        possible_uploaders = [
+            *clients,
+            *supports,
+            target_user,
+        ]
 
         for index in range(1, amount + 1):
             ticket = random.choice(tickets)

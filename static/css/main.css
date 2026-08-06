@@ -31,6 +31,9 @@
     --red: #c9465d;
     --red-soft: #fff0f2;
 
+    --grey: #575967;
+    --grey-soft: #ededf1;
+
     --shadow:
         0 18px 48px rgba(24, 24, 33, 0.07);
 
@@ -1046,8 +1049,43 @@ svg {
     gap: 20px;
 }
 
-.clickable-row {
+.ticket-row {
     cursor: pointer;
+
+    transition:
+        background-color 140ms ease,
+        box-shadow 140ms ease;
+}
+
+.ticket-main-link {
+    display: block;
+
+    color: inherit;
+    text-decoration: none;
+}
+
+.ticket-main-link:focus-visible {
+    border-radius: 6px;
+    outline: 2px solid var(--primary, #6d45ff);
+    outline-offset: 4px;
+}
+
+.ticket-row:hover .ticket-title {
+    color: var(--primary, #6d45ff);
+}
+
+.ticket-description {
+    max-width: 420px;
+    margin: 1px 0 0;
+
+    overflow: hidden;
+
+    color: var(--text-light, #77798a);
+
+    font-size: 10px;
+    line-height: 1.45;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 
@@ -1196,6 +1234,24 @@ svg {
     border-bottom: none;
 }
 
+.ticket-empty-cell {
+    height: 100px;
+    padding: 32px;
+
+    color: var(--text-light, #77798a);
+
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ticket-empty-row {
+    cursor: default;
+}
+
+.ticket-empty-row:hover {
+    background: transparent;
+}
+
 
 .ticket-identification {
     display: flex;
@@ -1245,6 +1301,22 @@ svg {
     white-space: nowrap;
 }
 
+.creator-tag {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 8px;
+
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    background: var(--surface-soft);
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: 650;
+    white-space: nowrap;
+}
 
 .status-badge {
     display: inline-flex;
@@ -1294,6 +1366,11 @@ svg {
 .status-resolved {
     background: var(--green-soft);
     color: var(--green);
+}
+
+.status-closed {
+    background: var(--grey-soft);
+    color: var(--grey);
 }
 
 

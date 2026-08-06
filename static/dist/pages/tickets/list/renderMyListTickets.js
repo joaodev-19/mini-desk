@@ -9,22 +9,24 @@ export function renderTicketsList(tableBody, data) {
         messageCell.colSpan = 5;
         messageCell.classList.add("ticket-empty-cell");
         messageCell.textContent =
-            "Nenhum chamado foi iniciado ainda.";
+            "Nenhum chamado foi encontrado.";
         row.appendChild(messageCell);
         tableBody.appendChild(row);
         return;
     }
     data.forEach((ticket) => {
-        const ticketUrl = `/tickets/${ticket.id}/`;
         const row = document.createElement("tr");
         row.classList.add("ticket-row");
-        row.dataset.ticketId = ticket.id.toString();
-        row.dataset.href = ticketUrl;
+        row.dataset.href = `/tickets/${ticket.id}/`;
         /* ==================================================
            Chamado
         ================================================== */
         const ticketCell = document.createElement("td");
         ticketCell.dataset.label = "Chamado";
+        const ticketLink = document.createElement("a");
+        ticketLink.classList.add("ticket-main-link");
+        ticketLink.href = `/tickets/${ticket.id}/`;
+        ticketLink.setAttribute("aria-label", `Abrir chamado ${ticket.id}: ${ticket.title}`);
         const ticketIdentification = document.createElement("div");
         ticketIdentification.classList.add("ticket-identification");
         const ticketCode = document.createElement("span");
@@ -37,7 +39,8 @@ export function renderTicketsList(tableBody, data) {
         ticketDescription.classList.add("ticket-description");
         ticketDescription.textContent = ticket.description;
         ticketIdentification.append(ticketCode, ticketTitle, ticketDescription);
-        ticketCell.appendChild(ticketIdentification);
+        ticketLink.appendChild(ticketIdentification);
+        ticketCell.appendChild(ticketLink);
         /* ==================================================
            Módulo
         ================================================== */
@@ -57,6 +60,16 @@ export function renderTicketsList(tableBody, data) {
         statusBadge.textContent = ticket.status_display;
         statusCell.appendChild(statusBadge);
         /* ==================================================
+           Criado em
+        ================================================== */
+        const createdAtCell = document.createElement("td");
+        createdAtCell.dataset.label = "Criado em";
+        const createdAtTime = document.createElement("time");
+        createdAtTime.classList.add("ticket-date");
+        createdAtTime.dateTime = ticket.created_at;
+        createdAtTime.textContent = formatDateTime(ticket.created_at);
+        createdAtCell.appendChild(createdAtTime);
+        /* ==================================================
            Atualizado
         ================================================== */
         const updatedAtCell = document.createElement("td");
@@ -68,18 +81,9 @@ export function renderTicketsList(tableBody, data) {
         updatedAtTime.textContent = formatDateTime(updatedAt);
         updatedAtCell.appendChild(updatedAtTime);
         /* ==================================================
-           Criado por
+           Montagem da linha
         ================================================== */
-        const creatorCell = document.createElement("td");
-        creatorCell.dataset.label = "Criado por";
-        const creatorTag = document.createElement("span");
-        creatorTag.classList.add("creator-tag");
-        creatorTag.textContent = ticket.created_by;
-        creatorCell.appendChild(creatorTag);
-        /* ==================================================
-           Montagem
-        ================================================== */
-        row.append(ticketCell, moduleCell, statusCell, updatedAtCell, creatorCell);
+        row.append(ticketCell, moduleCell, statusCell, createdAtCell, updatedAtCell);
         fragment.appendChild(row);
     });
     tableBody.appendChild(fragment);
@@ -90,6 +94,7 @@ export function initializeTicketRowNavigation(tableBody) {
         if (!(target instanceof HTMLElement)) {
             return;
         }
+        // Links e outros controles continuam com seus comportamentos próprios.
         if (target.closest("a, button, input, select, textarea, label")) {
             return;
         }
@@ -101,4 +106,4 @@ export function initializeTicketRowNavigation(tableBody) {
         window.location.assign(href);
     });
 }
-//# sourceMappingURL=renderListTickets.js.map
+//# sourceMappingURL=renderMyListTickets.js.map

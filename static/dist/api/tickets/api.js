@@ -7,6 +7,13 @@ export function listTickets() {
     };
     return request(config);
 }
+export function myListTickets() {
+    const config = {
+        url: `${BASE_URL}mine/`,
+        method: 'GET',
+    };
+    return request(config);
+}
 export function getTicket(id) {
     const config = {
         url: `${BASE_URL}${id}/`,

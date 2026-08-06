@@ -1,37 +1,52 @@
 import { handleCreateTicketSubmit, } from "../../../shared/utils/form.js";
 import { refreshSidebarTicketCount, } from "../../../components/layout/sidebar.js";
 import { getTicket, listTickets, } from "../../../api/tickets/api.js";
-import { renderTicketsList, } from "./renderListTickets.js";
-import { renderDashboard, } from "../renderDashboard.js";
+import { renderTicketsList, initializeTicketRowNavigation, } from "./renderListTickets.js";
+import { renderDashboard, } from "./renderDashboard.js";
 import { getCurrentUser, } from "../../../api/users/api.js";
 document.addEventListener('DOMContentLoaded', async () => {
-    const elements = {
-        welcomeName: document.getElementById('welcome-user-name'),
-        addModal: document.getElementById('new-ticket-modal'),
-        addForm: document.getElementById('new-ticket-form'),
-        ticketBody: document.getElementById("recent-tickets-body"),
-        statisticContainer: document.getElementById('statistic-container'),
-    };
+    const elements = (() => {
+        const welcomeName = document.getElementById('welcome-user-name');
+        const addModal = document.getElementById('new-ticket-modal');
+        const addForm = document.querySelector("#new-ticket-form");
+        const ticketBody = document.getElementById("recent-tickets-body");
+        const statisticContainer = document.getElementById('statistic-container');
+        if (!welcomeName ||
+            !addModal ||
+            !addForm ||
+            !ticketBody ||
+            !statisticContainer) {
+            throw new Error("Não foi possível inicializar a home: elementos obrigatórios não encontrados.");
+        }
+        return { welcomeName, addModal, addForm, ticketBody, statisticContainer };
+    })();
     const state = {
         tickets: [],
         user: null,
     };
     function closeModal(modal) {
-        const modalInstance = window.bootstrap.Modal.getOrCreateInstance(modal);
-        modalInstance.hide();
+        window.bootstrap.Modal.getOrCreateInstance(modal).hide();
+    }
+    function renderWelcomeName(element, user) {
+        element.textContent = user?.first_name?.trim() || "usuário";
     }
     async function init() {
-        const ticketResponse = await listTickets();
-        const userResponse = await getCurrentUser();
+        const [ticketResponse, userResponse] = await Promise.all([
+            listTickets(),
+            getCurrentUser(),
+        ]);
         state.tickets = ticketResponse.data;
         state.user = userResponse.data;
         renderDashboard(elements.statisticContainer, state.tickets);
         renderTicketsList(elements.ticketBody, state.tickets);
+        initializeTicketRowNavigation(elements.ticketBody);
+        renderWelcomeName(elements.welcomeName, state.user);
     }
-    elements.addForm?.addEventListener('submit', async (e) => {
+    elements.addForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitResponse = await handleCreateTicketSubmit(elements.addForm);
-        if (submitResponse.status === 'success') {
+        if (submitResponse.status === "success" ||
+            submitResponse.status === "warning") {
             elements.addForm.reset();
             closeModal(elements.addModal);
             await Promise.all([

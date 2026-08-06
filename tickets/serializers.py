@@ -56,6 +56,7 @@ class TicketCreateAttachmentSerializer(serializers.Serializer):
 class TicketListSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField(read_only=True)
+    description = serializers.CharField(read_only=True)
 
     module = serializers.ChoiceField(
         choices=Ticket.ModuleChoices.choices,

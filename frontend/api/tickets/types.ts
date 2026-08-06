@@ -24,6 +24,7 @@ export interface TicketAttachment {
 export interface TicketListItem {
     id: number;
     title: string;
+    description: string;
 
     module: ModuleChoices;
     module_display: string;

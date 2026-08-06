@@ -14,6 +14,7 @@ import type {
  } from "../../api/tickets/api.js";
 
 export async function handleCreateTicketSubmit(form: HTMLFormElement): Promise<CreateTicketResult> {
+
     const formData = new FormData(form);
 
     const title = formData.get('title');
