@@ -7,9 +7,16 @@ export type CreateTicketResult =
     | { status: 'warning'; message: string; ticketId: number }
     | { status: 'error'; message: string };
 
+export type CommentAuthor = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    role: 'client' | 'support';
+}
+
 export interface TicketComment {
     id: number;
-    author: string;
+    author: CommentAuthor;
     content: string;
     created_at: string;
 }

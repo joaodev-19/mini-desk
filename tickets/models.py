@@ -68,6 +68,9 @@ class Ticket(models.Model):
     
 
 class TicketComment(models.Model):
+    class Meta:
+        ordering = ["created_at"]
+        
     ticket = models.ForeignKey(
         Ticket,
         on_delete=models.CASCADE,

@@ -1,48 +1,59 @@
 import {
     getTicket,
 } from "../../../api/tickets/api.js";
+import type { TicketDetail } from "../../../api/tickets/types.js";
+import { getCurrentUser } from "../../../api/users/api.js";
+import type { CurrentUser } from "../../../api/users/types.js";
+import { renderMetaCard, renderSummaryCard, renderTicketActions } from "./renderTicketDetails.js";
 
+document.addEventListener('DOMContentLoaded', async () => {
+    const elements = (() => {
+        const detailPage = document.getElementById('ticket-detail-page');
+        const summaryCard = document.getElementById('ticket-summary-card');
+        const metaCard = document.getElementById('ticket-meta-card');
+        const ticketActionsContainer = document.getElementById('ticket-detail-actions');
 
-async function main(): Promise<void> {
-    const detailPage = document.getElementById(
-        "ticket-detail-page",
-    );
+        if (
+            !detailPage ||
+            !summaryCard ||
+            !metaCard ||
+            !ticketActionsContainer
+        ) {
+            throw new Error("Não foi possível inicializar a página de detalhamento: elementos obrigatórios não encontrados.");
+        };
 
-    if (!detailPage) {
-        throw new Error(
-            "Container da página de detalhes não encontrado.",
-        );
+        return {
+            detailPage, summaryCard, metaCard, ticketActionsContainer
+        };
+    })();
+
+    const state: {
+        ticket: TicketDetail | null;
+        user: CurrentUser | null;
+    } = {
+        ticket: null,
+        user: null,
     }
 
-    const ticketIdValue =
-        detailPage.dataset.ticketId;
+    async function init(): Promise<void> {
+        const ticketId = Number(elements.detailPage.dataset.ticketId);
 
-    if (!ticketIdValue) {
-        throw new Error(
-            "ID do chamado não foi informado na página.",
-        );
+        if (!Number.isInteger(ticketId) || ticketId <= 0) {
+            throw new Error("O ID do chamado é inválido.");
+        }
+
+        const [ticketResponse, userResponse] = await Promise.all([
+            getTicket(ticketId),
+            getCurrentUser(),
+        ]);
+
+        state.ticket = ticketResponse.data;
+        state.user = userResponse.data;
+
+        renderSummaryCard(elements.summaryCard, state.ticket);
+        renderMetaCard(elements.metaCard, state.ticket);
+        renderTicketActions(elements.ticketActionsContainer, state.ticket);
     }
-
-    const ticketId = Number(ticketIdValue);
-
-    if (
-        !Number.isInteger(ticketId) ||
-        ticketId <= 0
-    ) {
-        throw new Error(
-            "ID do chamado inválido.",
-        );
-    }
-
-    const response = await getTicket(ticketId);
-
-    console.log(response.data);
-}
-
-
-main().catch((error) => {
-    console.error(
-        "Erro ao inicializar os detalhes do chamado:",
-        error,
-    );
+    
+    await init();
 });

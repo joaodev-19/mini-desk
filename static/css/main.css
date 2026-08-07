@@ -745,17 +745,19 @@ svg {
 
 
 .secondary-button {
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid var(--border-strong);
 
-    background: rgba(255, 255, 255, 0.07);
-    color: rgba(255, 255, 255, 0.83);
+    background: var(--surface);
+    color: var(--text-soft);
+
+    box-shadow: none;
 }
 
-
 .secondary-button:hover {
-    border-color: rgba(255, 255, 255, 0.24);
+    border-color: var(--primary-light);
 
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--primary-soft);
+    color: var(--primary);
 }
 
 
@@ -1235,7 +1237,7 @@ svg {
 }
 
 .ticket-empty-cell {
-    height: 100px;
+    height: 10px;
     padding: 32px;
 
     color: var(--text-light, #77798a);

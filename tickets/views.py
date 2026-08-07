@@ -205,7 +205,7 @@ def ticket_list_view(request):
 @login_required
 def ticket_detail_view(request, ticket_id):
     context = {
-        "id": ticket_id
+        "ticket_id": ticket_id
     }
 
     return render(request, 'tickets/detail.html', context)

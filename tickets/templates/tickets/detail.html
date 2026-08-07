@@ -21,7 +21,7 @@
 
         <aside class="ticket-detail-sidebar">
 
-            <article class="content-card ticket-summary-card">
+            <article class="content-card ticket-summary-card" id="ticket-summary-card">
                 <header class="card-header">
                     <span class="section-eyebrow">Chamado</span>
                     <h1 class="ticket-title" id="ticket-detail-title">
@@ -33,12 +33,18 @@
                 </header>
 
                 <div class="ticket-summary-body">
-                    <p
-                        class="ticket-description"
-                        id="ticket-detail-description"
-                    >
-                        Carregando descrição...
-                    </p>
+                    <div class="ticket-initial-description">
+                        <span class="ticket-description-label">
+                            Descrição inicial
+                        </span>
+
+                        <p
+                            class="ticket-detail-description"
+                            id="ticket-detail-description"
+                        >
+                            Carregando descrição...
+                        </p>
+                    </div>
 
                     <div class="ticket-badges">
                         <span
@@ -58,7 +64,7 @@
                 </div>
             </article>
 
-            <article class="content-card ticket-meta-card">
+            <article class="content-card ticket-meta-card" id="ticket-meta-card">
                 <header class="card-header">
                     <span class="section-eyebrow">Informações</span>
                     <h2>Detalhes do atendimento</h2>
@@ -92,13 +98,15 @@
                 </dl>
 
                 <div class="ticket-actions" id="ticket-detail-actions">
-                    <button
-                        type="button"
-                        class="secondary-button"
-                        id="edit-ticket-button"
-                    >
-                        Editar chamado
-                    </button>
+                    {% if request.user.role == 'client' %}
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            id="edit-ticket-button"
+                        >
+                            Editar chamado
+                        </button>
+                    {% endif %}
 
                     {% if request.user.role == 'support' %}
                         <button
@@ -209,6 +217,7 @@
                                     type="file"
                                     name="file"
                                     id="reply-file"
+                                    class="secondary-button"
                                     hidden
                                 >
                                 Anexar arquivo
@@ -231,7 +240,7 @@
 </main>
 {% endblock %}
 
-{% block page_js %}
+{% block extra_js %}
 <script
     type="module"
     src="{% static 'dist/pages/tickets/detail/detail.js' %}"
