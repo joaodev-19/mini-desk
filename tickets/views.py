@@ -195,9 +195,17 @@ class TicketAttachmentCreateAPIView(APIView):
 
 
 @login_required
-def home_view(request):
+def ticket_home_view(request):
     return render(request, 'tickets/index.html')
 
 @login_required
-def list_view(request):
+def ticket_list_view(request):
     return render(request, 'tickets/list.html')
+
+@login_required
+def ticket_detail_view(request, ticket_id):
+    context = {
+        "id": ticket_id
+    }
+
+    return render(request, 'tickets/detail.html', context)

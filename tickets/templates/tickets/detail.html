@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Detalhes do chamado | Mini Desk{% endblock %}
+
+{% block topbar %}
+    {% include "partials/topbar.html" with page_context="Detalhes do chamado" page_title="Atendimento" %}
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/ticket-detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<main
+    class="ticket-detail-page"
+    id="ticket-detail-page"
+    data-ticket-id="{{ ticket_id }}"
+>
+    <section class="ticket-detail-layout">
+
+        <aside class="ticket-detail-sidebar">
+
+            <article class="content-card ticket-summary-card">
+                <header class="card-header">
+                    <span class="section-eyebrow">Chamado</span>
+                    <h1 class="ticket-title" id="ticket-detail-title">
+                        Carregando chamado...
+                    </h1>
+                    <p class="ticket-code" id="ticket-detail-code">
+                        Chamado #--
+                    </p>
+                </header>
+
+                <div class="ticket-summary-body">
+                    <p
+                        class="ticket-description"
+                        id="ticket-detail-description"
+                    >
+                        Carregando descrição...
+                    </p>
+
+                    <div class="ticket-badges">
+                        <span
+                            class="status-badge"
+                            id="ticket-detail-status"
+                        >
+                            Status
+                        </span>
+
+                        <span
+                            class="module-tag"
+                            id="ticket-detail-module"
+                        >
+                            Módulo
+                        </span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card ticket-meta-card">
+                <header class="card-header">
+                    <span class="section-eyebrow">Informações</span>
+                    <h2>Detalhes do atendimento</h2>
+                </header>
+
+                <dl class="ticket-meta-list">
+                    <div class="meta-row">
+                        <dt>Criado por</dt>
+                        <dd id="ticket-detail-created-by">--</dd>
+                    </div>
+
+                    <div class="meta-row">
+                        <dt>Responsável</dt>
+                        <dd id="ticket-detail-assigned-to">--</dd>
+                    </div>
+
+                    <div class="meta-row">
+                        <dt>Criado em</dt>
+                        <dd id="ticket-detail-created-at">--</dd>
+                    </div>
+
+                    <div class="meta-row">
+                        <dt>Atualizado em</dt>
+                        <dd id="ticket-detail-updated-at">--</dd>
+                    </div>
+
+                    <div class="meta-row">
+                        <dt>Resolvido em</dt>
+                        <dd id="ticket-detail-resolved-at">--</dd>
+                    </div>
+                </dl>
+
+                <div class="ticket-actions" id="ticket-detail-actions">
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="edit-ticket-button"
+                    >
+                        Editar chamado
+                    </button>
+
+                    {% if request.user.role == 'support' %}
+                        <button
+                            type="button"
+                            class="primary-button"
+                            id="start-ticket-button"
+                        >
+                            Iniciar atendimento
+                        </button>
+                    {% endif %}
+                </div>
+            </article>
+
+            <article class="content-card ticket-attachments-card">
+                <header class="card-header">
+                    <span class="section-eyebrow">Arquivos</span>
+                    <h2>Anexos</h2>
+                </header>
+
+                <div
+                    class="ticket-attachments-list"
+                    id="ticket-attachments-list"
+                >
+                    <p class="empty-text">
+                        Nenhum anexo enviado até o momento.
+                    </p>
+                </div>
+            </article>
+
+        </aside>
+
+        <section class="ticket-detail-main">
+
+            <article class="content-card ticket-conversation-card">
+                <header class="card-header conversation-header">
+                    <div>
+                        <span class="section-eyebrow">Atendimento</span>
+                        <h2>Histórico da conversa</h2>
+                        <p>
+                            Acompanhe a troca de mensagens e o andamento do chamado.
+                        </p>
+                    </div>
+                </header>
+
+                <div
+                    class="conversation-timeline"
+                    id="conversation-timeline"
+                >
+
+                    <div class="message-item message-client">
+                        <div class="message-avatar">JS</div>
+
+                        <div class="message-bubble">
+                            <div class="message-meta">
+                                <strong>João Silva</strong>
+                                <span>Hoje às 13:24</span>
+                            </div>
+
+                            <p>
+                                O sistema está apresentando erro ao tentar cadastrar um cliente.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-event">
+                        <span class="timeline-event-badge">Status</span>
+                        <p>Chamado movido para <strong>Em análise</strong>.</p>
+                        <time datetime="2026-08-06T13:30:00">
+                            Hoje às 13:30
+                        </time>
+                    </div>
+
+                    <div class="message-item message-support">
+                        <div class="message-avatar">MD</div>
+
+                        <div class="message-bubble">
+                            <div class="message-meta">
+                                <strong>Equipe Mini Desk</strong>
+                                <span>Hoje às 13:40</span>
+                            </div>
+
+                            <p>
+                                Pode me informar se esse erro acontece ao salvar ou ao abrir o formulário?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="conversation-composer">
+                    <form
+                        id="ticket-reply-form"
+                        class="reply-form"
+                    >
+                        <label for="reply-content" class="form-label">
+                            Responder atendimento
+                        </label>
+
+                        <textarea
+                            id="reply-content"
+                            name="content"
+                            rows="5"
+                            placeholder="Descreva sua resposta..."
+                        ></textarea>
+
+                        <div class="reply-actions">
+                            <label class="file-input-button">
+                                <input
+                                    type="file"
+                                    name="file"
+                                    id="reply-file"
+                                    hidden
+                                >
+                                Anexar arquivo
+                            </label>
+
+                            <button
+                                type="submit"
+                                class="primary-button"
+                            >
+                                Enviar resposta
+                            </button>
+                        </div>
+                    </form>
+                </footer>
+            </article>
+
+        </section>
+
+    </section>
+</main>
+{% endblock %}
+
+{% block page_js %}
+<script
+    type="module"
+    src="{% static 'dist/pages/tickets/detail/detail.js' %}"
+></script>
+{% endblock %}
