@@ -4,6 +4,7 @@ import { getTicket, listTickets, } from "../../../api/tickets/api.js";
 import { renderTicketsList, initializeTicketRowNavigation, } from "./renderListTickets.js";
 import { renderDashboard, } from "./renderDashboard.js";
 import { getCurrentUser, } from "../../../api/users/api.js";
+import { closeModal } from "../../../shared/utils/utils.js";
 document.addEventListener('DOMContentLoaded', async () => {
     const elements = (() => {
         const welcomeName = document.getElementById('welcome-user-name');
@@ -24,9 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         tickets: [],
         user: null,
     };
-    function closeModal(modal) {
-        window.bootstrap.Modal.getOrCreateInstance(modal).hide();
-    }
     function renderWelcomeName(element, user) {
         element.textContent = user?.first_name?.trim() || "usuário";
     }

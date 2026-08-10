@@ -30,6 +30,10 @@ import {
     getCurrentUser,
 } from "../../../api/users/api.js";
 
+import {
+    closeModal
+} from "../../../shared/utils/utils.js";
+
 document.addEventListener('DOMContentLoaded', async () => {
     const elements = (() => {
         const welcomeName = document.getElementById('welcome-user-name');
@@ -60,10 +64,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         tickets: [],
         user: null,
     };
-
-    function closeModal(modal: HTMLElement): void {
-        window.bootstrap.Modal.getOrCreateInstance(modal).hide();
-    }
 
     function renderWelcomeName(
         element: HTMLElement,

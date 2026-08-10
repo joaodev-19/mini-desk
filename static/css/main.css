@@ -1289,18 +1289,44 @@ svg {
 .module-tag {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
 
-    padding: 5px 8px;
+    padding: 4px 7px;
 
     border: 1px solid var(--border);
     border-radius: 6px;
 
-    background: var(--surface-soft);
-    color: var(--text-muted);
+    background: var(--surface);
+    color: var(--text-soft);
 
     font-size: 9px;
     font-weight: 650;
+
     white-space: nowrap;
+}
+
+.module-tag i {
+    font-size: 10px;
+}
+
+.module-tag[data-module="calendar"] i {
+    color: var(--blue);
+}
+
+.module-tag[data-module="processes"] i {
+    color: var(--primary);
+}
+
+.module-tag[data-module="clients"] i {
+    color: var(--green);
+}
+
+.module-tag[data-module="documents"] i {
+    color: var(--orange);
+}
+
+.module-tag[data-module="users"] i {
+    color: #64748b;
 }
 
 .creator-tag {
@@ -2238,4 +2264,20 @@ svg {
     .ticket-action:hover {
         transform: none;
     }
+}
+
+.toast-success {
+    border-left: 3px solid var(--green);
+}
+
+.toast-danger {
+    border-left: 3px solid var(--red);
+}
+
+.toast-success .toast-header {
+    color: var(--green);
+}
+
+.toast-danger .toast-header {
+    color: var(--red);
 }

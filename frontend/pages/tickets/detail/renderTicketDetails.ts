@@ -1,4 +1,5 @@
 import type { StatusChoices, TicketDetail } from "../../../api/tickets/types";
+import { iconsMap } from "../../../shared/utils/maps.js";
 import { formatDateTime } from "../../../shared/utils/utils.js";
 
 function renderStatusBadge(
@@ -29,7 +30,7 @@ export function renderSummaryCard(
     const ticketCode = container.querySelector("#ticket-detail-code");
     const ticketDescription = container.querySelector("#ticket-detail-description");
     const ticketStatus = container.querySelector<HTMLElement>("#ticket-detail-status");
-    const ticketModule = container.querySelector("#ticket-detail-module");
+    const ticketModule = container.querySelector<HTMLElement>("#ticket-detail-module");
 
     if (!ticketTitle ||
         !ticketCode ||
@@ -45,14 +46,21 @@ export function renderSummaryCard(
     
     `Chamado #${data.id.toString().padStart(2, "0")}`;
     ticketDescription.textContent = data.description;
+
+    const icon = document.createElement("i");
+    const iconClass = iconsMap[data.module];
+    icon.classList.add(...iconClass.split(" "));
+
     ticketModule.textContent = data.module_display;
+    ticketModule.dataset.module = data.module;
+    ticketModule.appendChild(icon);
 
     renderStatusBadge(
         ticketStatus,
         data.status,
         data.status_display,
     )
-}
+};
 
 export function renderMetaCard(
     container: HTMLElement,
@@ -79,18 +87,4 @@ export function renderMetaCard(
     ticketUpdatedAt.textContent = formatDateTime(data.updated_at);
     const resolvedAtLabel = data.resolved_at ? formatDateTime(data.resolved_at) : "Chamado em aberto";
     ticketResolvedAt.textContent = resolvedAtLabel;
-}
-
-export function renderTicketActions(
-    container: HTMLElement,
-    data: TicketDetail,
-): void {
-    const isEditingAllowed = data.status === "open";
-    const isStartAllowed = data.status === "open";
-
-    const editButton = container.querySelector<HTMLButtonElement>("#edit-ticket-button");
-    const startButton = container.querySelector<HTMLButtonElement>("#start-ticket-button");
-
-    editButton?.classList.toggle("d-none", !isEditingAllowed);
-    startButton?.classList.toggle("d-none", !isStartAllowed);
-}
+};

@@ -1,3 +1,4 @@
+import { iconsMap } from "../../../shared/utils/maps.js";
 import { formatDateTime } from "../../../shared/utils/utils.js";
 function renderStatusBadge(element, status, statusDisplay) {
     element.textContent = statusDisplay;
@@ -21,9 +22,15 @@ export function renderSummaryCard(container, data) {
     ticketCode.textContent =
         `Chamado #${data.id.toString().padStart(2, "0")}`;
     ticketDescription.textContent = data.description;
+    const icon = document.createElement("i");
+    const iconClass = iconsMap[data.module];
+    icon.classList.add(...iconClass.split(" "));
     ticketModule.textContent = data.module_display;
+    ticketModule.dataset.module = data.module;
+    ticketModule.appendChild(icon);
     renderStatusBadge(ticketStatus, data.status, data.status_display);
 }
+;
 export function renderMetaCard(container, data) {
     const ticketCreatedBy = container.querySelector("#ticket-detail-created-by");
     const ticketAssignedTo = container.querySelector("#ticket-detail-assigned-to");
@@ -44,12 +51,5 @@ export function renderMetaCard(container, data) {
     const resolvedAtLabel = data.resolved_at ? formatDateTime(data.resolved_at) : "Chamado em aberto";
     ticketResolvedAt.textContent = resolvedAtLabel;
 }
-export function renderTicketActions(container, data) {
-    const isEditingAllowed = data.status === "open";
-    const isStartAllowed = data.status === "open";
-    const editButton = container.querySelector("#edit-ticket-button");
-    const startButton = container.querySelector("#start-ticket-button");
-    editButton?.classList.toggle("d-none", !isEditingAllowed);
-    startButton?.classList.toggle("d-none", !isStartAllowed);
-}
+;
 //# sourceMappingURL=renderTicketDetails.js.map

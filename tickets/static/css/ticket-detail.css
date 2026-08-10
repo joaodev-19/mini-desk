@@ -23,12 +23,18 @@
     border: 1px solid var(--border);
     border-radius: 20px;
     background: var(--surface, #fff);
+}
+
+.content-card > *:not(.card-header) {
     overflow: hidden;
 }
 
 .card-header {
     padding: 24px 24px 18px;
     border-bottom: 1px solid var(--border);
+    overflow: visible; 
+    position: relative;
+    z-index: 2; 
 }
 
 .card-header h1,
@@ -195,7 +201,7 @@
     line-height: 1.6;
 }
 
-.message-support .message-bubble {
+.message-other .message-bubble {
     background: #f7f4ff;
     border-color: #e5defc;
 }
@@ -394,4 +400,366 @@
     border-radius: 50%;
 
     background: currentColor;
+}
+
+/* ==================================================
+   Cabeçalho do atendimento
+================================================== */
+
+.conversation-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.conversation-actions {
+    flex-shrink: 0;
+}
+
+
+/* ==================================================
+   Workflow dropdown
+================================================== */
+
+.workflow-dropdown {
+    position: relative;
+}
+
+
+/* ==================================================
+   Botão
+================================================== */
+
+.workflow-dropdown-toggle {
+    min-height: 40px;
+    padding: 0 14px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 1px solid var(--border-strong);
+    border-radius: 9px;
+
+    background: var(--surface);
+    color: var(--text-soft);
+
+    font-size: 11px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+        color 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.workflow-dropdown-toggle:hover {
+    border-color: #d4cdfa;
+
+    background: var(--primary-soft);
+    color: var(--primary);
+
+    transform: translateY(-1px);
+}
+
+.workflow-dropdown-toggle:focus-visible {
+    outline: none;
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgb(109 74 255 / 12%);
+}
+
+
+/* ==================================================
+   Seta Bootstrap customizada
+================================================== */
+
+.workflow-dropdown-toggle::after {
+    width: 0.42em;
+    height: 0.42em;
+    margin-left: 3px;
+
+    border: solid currentColor;
+    border-width: 0 1.5px 1.5px 0;
+
+    transform: translateY(-2px) rotate(45deg);
+
+    transition:
+        transform 220ms ease;
+}
+
+
+/*
+   aria-expanded muda automaticamente pelo Bootstrap.
+*/
+
+.workflow-dropdown-toggle[aria-expanded="true"]::after {
+    transform:
+        translateY(1px)
+        rotate(225deg);
+}
+
+
+/* ==================================================
+   Menu
+================================================== */
+
+.workflow-dropdown {
+    position: relative;
+}
+
+.workflow-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: auto !important;
+    z-index: 20;
+
+    display: block;
+
+    min-width: 290px;
+    margin-top: 9px;
+    padding: 7px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background: var(--surface);
+
+    box-shadow:
+        0 16px 38px rgb(24 24 33 / 12%);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform:
+        translateY(-7px)
+        scale(0.97);
+
+    transform-origin: top right;
+
+    transition:
+        opacity 180ms ease,
+        transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        visibility 0s linear 180ms;
+}
+
+.workflow-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+    transition:
+        opacity 180ms ease,
+        transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        visibility 0s;
+}
+
+
+/* ==================================================
+   Items
+================================================== */
+
+.workflow-dropdown-item {
+    width: 100%;
+    min-height: 58px;
+    padding: 9px 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    border-radius: 8px;
+
+    background: transparent;
+    color: var(--text);
+
+    text-align: left;
+
+    transition:
+        color 180ms ease,
+        background-color 180ms ease,
+        padding-left 180ms ease,
+        transform 180ms ease;
+}
+
+.workflow-dropdown-item:hover,
+.workflow-dropdown-item:focus {
+    padding-left: 15px;
+
+    background: var(--surface-soft);
+    color: var(--text);
+
+    outline: none;
+}
+
+
+/* ==================================================
+   Ícones
+================================================== */
+
+.workflow-action-icon {
+    width: 32px;
+    height: 32px;
+
+    flex: 0 0 auto;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 8px;
+
+    background: var(--primary-soft);
+    color: var(--primary);
+
+    font-size: 14px;
+
+    transition:
+        background-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+.workflow-dropdown-item:hover
+.workflow-action-icon {
+    transform: translateX(2px);
+}
+
+.workflow-action-icon.action-resolve {
+    background: var(--green-soft);
+    color: var(--green);
+}
+
+
+/* ==================================================
+   Texto dos itens
+================================================== */
+
+.workflow-action-content {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.workflow-action-content strong {
+    color: var(--text);
+
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1.35;
+}
+
+.workflow-action-content small {
+    color: var(--text-muted);
+
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+
+/* ==================================================
+   Separador
+================================================== */
+
+.workflow-dropdown-divider {
+    margin: 6px 5px;
+
+    border-color: var(--border);
+    opacity: 1;
+}
+
+
+/* ==================================================
+   Estados especiais
+================================================== */
+
+.workflow-dropdown-item[data-action="close"],
+.workflow-dropdown-item[data-action="cancel"] {
+    color: var(--red);
+}
+
+.workflow-dropdown-item[data-action="close"]
+.workflow-action-icon,
+.workflow-dropdown-item[data-action="cancel"]
+.workflow-action-icon {
+    background: var(--red-soft);
+    color: var(--red);
+}
+
+.workflow-dropdown-item[data-action="close"]:hover,
+.workflow-dropdown-item[data-action="cancel"]:hover {
+    background: var(--red-soft);
+}
+
+
+/* ==================================================
+   Responsividade
+================================================== */
+
+@media (max-width: 700px) {
+    .conversation-heading {
+        flex-direction: column;
+    }
+
+    .conversation-actions {
+        width: 100%;
+    }
+
+    .workflow-dropdown {
+        width: 100%;
+    }
+
+    .workflow-dropdown-toggle {
+        width: 100%;
+    }
+
+    .workflow-dropdown-menu {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+
+/* ==================================================
+   Respeita preferência por menos animação
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .workflow-dropdown-toggle,
+    .workflow-dropdown-toggle::after,
+    .workflow-dropdown-item,
+    .workflow-action-icon {
+        transition: none;
+    }
+
+    .workflow-dropdown-menu.show {
+        animation: none;
+    }
+}
+
+.workflow-dynamic-wrapper,
+.workflow-dynamic-items {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.workflow-dynamic-wrapper {
+    width: 100%;
 }

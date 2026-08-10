@@ -1,0 +1,1 @@
+{"version":3,"file":"maps.js","sourceRoot":"","sources":["../../../../frontend/shared/utils/maps.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,QAAQ,GAAG;IACpB,UAAU,EAAE,iBAAiB;IAC7B,WAAW,EAAE,mBAAmB;IAChC,OAAO,EAAE,mBAAmB;IAC5B,SAAS,EAAE,mBAAmB;IAC9B,WAAW,EAAE,oBAAoB;IACjC,QAAQ,EAAE,4BAA4B;CACzC,CAAA"}

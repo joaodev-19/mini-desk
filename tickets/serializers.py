@@ -5,10 +5,24 @@ from django.utils import timezone
 
 User = get_user_model()
 
+class TicketCommentAuthorSerializer(serializers.Serializer):
+    id = serializers.IntegerField(
+        read_only=True
+    )
+
+    full_name = serializers.SerializerMethodField()
+
+    role = serializers.CharField(
+        read_only=True
+    )
+
+    def get_full_name(self, obj):
+        return obj.get_full_name() or obj.username
+
 class TicketCommentSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
 
-    author = serializers.StringRelatedField(
+    author = TicketCommentAuthorSerializer(
         read_only=True
     )
 

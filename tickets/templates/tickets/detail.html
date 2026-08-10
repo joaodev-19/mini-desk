@@ -61,6 +61,21 @@
                             Módulo
                         </span>
                     </div>
+
+                    
+                <div class="ticket-actions" id="ticket-detail-actions">
+                    {% if request.user.role == 'client' %}
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            id="edit-ticket-button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#edit-ticket-modal"
+                        >
+                            Editar chamado
+                        </button>
+                    {% endif %}
+                </div>
                 </div>
             </article>
 
@@ -69,6 +84,10 @@
                     <span class="section-eyebrow">Informações</span>
                     <h2>Detalhes do atendimento</h2>
                 </header>
+
+                <button id="teste">
+                    click me
+                </button>
 
                 <dl class="ticket-meta-list">
                     <div class="meta-row">
@@ -96,28 +115,6 @@
                         <dd id="ticket-detail-resolved-at">--</dd>
                     </div>
                 </dl>
-
-                <div class="ticket-actions" id="ticket-detail-actions">
-                    {% if request.user.role == 'client' %}
-                        <button
-                            type="button"
-                            class="secondary-button"
-                            id="edit-ticket-button"
-                        >
-                            Editar chamado
-                        </button>
-                    {% endif %}
-
-                    {% if request.user.role == 'support' %}
-                        <button
-                            type="button"
-                            class="primary-button"
-                            id="start-ticket-button"
-                        >
-                            Iniciar atendimento
-                        </button>
-                    {% endif %}
-                </div>
             </article>
 
             <article class="content-card ticket-attachments-card">
@@ -142,12 +139,84 @@
 
             <article class="content-card ticket-conversation-card">
                 <header class="card-header conversation-header">
-                    <div>
-                        <span class="section-eyebrow">Atendimento</span>
-                        <h2>Histórico da conversa</h2>
-                        <p>
-                            Acompanhe a troca de mensagens e o andamento do chamado.
-                        </p>
+                    <div class="conversation-heading">
+
+                        <div>
+                            <span class="section-eyebrow">
+                                Atendimento
+                            </span>
+
+                            <h2>
+                                Histórico da conversa
+                            </h2>
+
+                            <p>
+                                Acompanhe a troca de mensagens e o andamento do chamado.
+                            </p>
+                        </div>
+
+                        {% if request.user.role == "support" %}
+                        <div
+                            class="conversation-actions"
+                            id="ticket-workflow-actions"
+                        >
+                            <div
+                                class="dropdown workflow-dropdown"
+                                id="ticket-workflow-dropdown"
+                            >
+                                <button
+                                    type="button"
+                                    class="workflow-dropdown-toggle dropdown-toggle"
+                                    id="ticket-workflow-toggle"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-display="static"
+                                    aria-expanded="false"
+                                >
+                                    <i class="bi bi-sliders2" aria-hidden="true"></i>
+
+                                    <span>Ações</span>
+                                </button>
+
+                                <ul
+                                    class="dropdown-menu dropdown-menu-end workflow-dropdown-menu"
+                                    aria-labelledby="ticket-workflow-toggle"
+                                >
+                                    <li class="workflow-dynamic-wrapper">
+                                        <ul
+                                            class="workflow-dynamic-items"
+                                            id="ticket-workflow-items"
+                                        >
+                                            <!-- TS -->
+                                        </ul>
+                                    </li>
+                                   
+
+                                    <li>
+                                        <hr class="dropdown-divider workflow-dropdown-divider">
+                                    </li>
+
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="dropdown-item workflow-dropdown-item"
+                                            data-action="transfer"
+                                        >
+                                            <span class="workflow-action-icon">
+                                                <i class="bi bi-person-gear"></i>
+                                            </span>
+
+                                            <span class="workflow-action-content">
+                                                <strong>Alterar responsável</strong>
+                                                <small>
+                                                    Transferir para outro suporte.
+                                                </small>
+                                            </span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </header>
 
@@ -155,44 +224,7 @@
                     class="conversation-timeline"
                     id="conversation-timeline"
                 >
-
-                    <div class="message-item message-client">
-                        <div class="message-avatar">JS</div>
-
-                        <div class="message-bubble">
-                            <div class="message-meta">
-                                <strong>João Silva</strong>
-                                <span>Hoje às 13:24</span>
-                            </div>
-
-                            <p>
-                                O sistema está apresentando erro ao tentar cadastrar um cliente.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-event">
-                        <span class="timeline-event-badge">Status</span>
-                        <p>Chamado movido para <strong>Em análise</strong>.</p>
-                        <time datetime="2026-08-06T13:30:00">
-                            Hoje às 13:30
-                        </time>
-                    </div>
-
-                    <div class="message-item message-support">
-                        <div class="message-avatar">MD</div>
-
-                        <div class="message-bubble">
-                            <div class="message-meta">
-                                <strong>Equipe Mini Desk</strong>
-                                <span>Hoje às 13:40</span>
-                            </div>
-
-                            <p>
-                                Pode me informar se esse erro acontece ao salvar ou ao abrir o formulário?
-                            </p>
-                        </div>
-                    </div>
+                <!-- TS -->
                 </div>
 
                 <footer class="conversation-composer">
@@ -233,10 +265,75 @@
                     </form>
                 </footer>
             </article>
-
         </section>
-
     </section>
+
+    <div 
+        class="modal fade"
+        tabindex="-1" 
+        id="edit-ticket-modal" 
+        aria-labelledby="editTicketLabel" 
+        aria-hidden="true" 
+        data-bs-theme="dark"
+        >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h3 class="modal-title fs-5" id="editTicketLabel">Editar Chamado</h3>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="edit-ticket-form">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-6 mb-3">
+                                <label for="title-input" class="form-label">Título</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="title-input" 
+                                    name="title"
+                                    aria-label="Ticket Title"
+                                    >
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="module-select" class="form-label">Módulo</label>
+                                <select name="module" id="module-select" class="form-select">
+                                    <option value="" selected>...</option>
+                                    <option value="clients">Clientes</option>
+                                    <option value="processes">Processos</option>
+                                    <option value="calendar">Agenda</option>
+                                    <option value="documents">Documentos</option>
+                                    <option value="users">Usuários</option>
+                                    <option value="others">Outros</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-12 mb-3">
+                                <label for="description-textarea" class="form-label">Descrição</label>
+                                <textarea 
+                                    name="description" 
+                                    id="description-textarea" 
+                                    class="form-control"
+                                    cols="12"
+                                    rows="6">     
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="secondary-button" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="primary-button">Salvar Chamado</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 {% endblock %}
 

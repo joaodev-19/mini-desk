@@ -1,3 +1,4 @@
+import { iconsMap } from "../../../shared/utils/maps.js";
 import { formatDateTime, } from "../../../shared/utils/utils.js";
 export function renderTicketsList(tableBody, data) {
     tableBody.replaceChildren();
@@ -43,9 +44,14 @@ export function renderTicketsList(tableBody, data) {
         ================================================== */
         const moduleCell = document.createElement("td");
         moduleCell.dataset.label = "Módulo";
+        const icon = document.createElement("i");
+        const iconClass = iconsMap[ticket.module];
+        icon.classList.add(...iconClass.split(" "));
         const moduleTag = document.createElement("span");
         moduleTag.classList.add("module-tag");
         moduleTag.textContent = ticket.module_display;
+        moduleTag.dataset.module = ticket.module;
+        moduleTag.appendChild(icon);
         moduleCell.appendChild(moduleTag);
         /* ==================================================
            Status

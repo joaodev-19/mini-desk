@@ -7,10 +7,22 @@ export type CreateTicketResult =
     | { status: 'warning'; message: string; ticketId: number }
     | { status: 'error'; message: string };
 
+export type UpdateTicketSubmitResult =
+    | {
+        status: "success";
+        message: string;
+        ticket: TicketDetail;
+    }
+    | {
+        status: "error";
+        message: string;
+    };
+
 export type CommentAuthor = {
     id: number;
     first_name: string;
     last_name: string;
+    full_name: string;
     role: 'client' | 'support';
 }
 
