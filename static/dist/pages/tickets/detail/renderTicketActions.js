@@ -96,4 +96,21 @@ export function renderWorkflowDropdownItems(container, currentStatus) {
     });
     container.replaceChildren(fragment);
 }
+export function renderTicketContentActions(container, ticket, user) {
+    const fragment = document.createDocumentFragment();
+    if (user.role === 'client' &&
+        ticket.status === "open") {
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.setAttribute("data-bs-toggle", "modal");
+        editButton.setAttribute("data-bs-target", "#edit-ticket-modal");
+        editButton.classList.add("secondary-button");
+        editButton.dataset.action =
+            "edit-ticket";
+        editButton.textContent =
+            "Editar chamado";
+        fragment.appendChild(editButton);
+    }
+    container.replaceChildren(fragment);
+}
 //# sourceMappingURL=renderTicketActions.js.map

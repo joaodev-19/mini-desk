@@ -1,4 +1,5 @@
-import type { StatusChoices } from "../../../api/tickets/types";
+import type { StatusChoices, TicketDetail } from "../../../api/tickets/types";
+import type { CurrentUser } from "../../../api/users/types";
 
 type WorkflowItem = {
     icon: string;
@@ -145,6 +146,42 @@ export function renderWorkflowDropdownItems(
 
         fragment.appendChild(item);
     });
+
+    container.replaceChildren(fragment);
+}
+
+export function renderTicketContentActions(
+    container: HTMLElement,
+    ticket: TicketDetail,
+    user: CurrentUser,
+): void {
+    const fragment =
+        document.createDocumentFragment();
+
+    if (
+        user.role === 'client' &&
+        ticket.status === "open"
+    ) {
+        const editButton =
+            document.createElement("button");
+
+        editButton.type = "button";
+
+        editButton.setAttribute("data-bs-toggle","modal");
+        editButton.setAttribute("data-bs-target", "#edit-ticket-modal",);
+
+        editButton.classList.add(
+            "secondary-button",
+        );
+
+        editButton.dataset.action =
+            "edit-ticket";
+
+        editButton.textContent =
+            "Editar chamado";
+
+        fragment.appendChild(editButton);
+    }
 
     container.replaceChildren(fragment);
 }

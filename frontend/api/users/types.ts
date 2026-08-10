@@ -1,4 +1,4 @@
-export type RoleOptions = 'clients' | 'support';
+export type RoleOptions = 'client' | 'support';
 
 export interface CurrentUser {
     'id': number,
