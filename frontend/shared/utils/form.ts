@@ -7,6 +7,8 @@ import type {
     UpdateTicketContentRequest,
     TicketDetail,
     UpdateTicketSubmitResult,
+    TicketComment,
+    ReplySubmitResult,
  } from "../../api/tickets/types.js";
 
  import {
@@ -112,6 +114,81 @@ export async function handleUpdateTicketSubmit(ticketId: number, form: HTMLFormE
         return {
             status: 'error',
             message: 'Não foi possível atualizar o chamado.',
+        };
+    }
+}
+
+export async function handleReplySubmit(
+    ticketId: number,
+    form: HTMLFormElement,
+): Promise<ReplySubmitResult> {
+    const formData = new FormData(form);
+
+    const content =
+        formData.get("content");
+
+    const attachment =
+        formData.get("attachment");
+
+
+    const hasContent =
+        typeof content === "string" &&
+        content.trim().length > 0;
+
+    const hasAttachment =
+        attachment instanceof File &&
+        attachment.size > 0;
+
+
+    if (!hasContent && !hasAttachment) {
+        return {
+            status: "error",
+            message:
+                "Escreva uma resposta ou anexe um arquivo.",
+        };
+    }
+
+
+    try {
+        const [
+            commentResponse,
+            attachmentResponse,
+        ] = await Promise.all([
+            hasContent
+                ? createTicketComment(
+                    ticketId,
+                    {
+                        content: content.trim(),
+                    },
+                )
+                : Promise.resolve(null),
+
+            hasAttachment
+                ? createTicketAttachment(
+                    ticketId,
+                    {
+                        file: attachment,
+                    }
+                )
+                : Promise.resolve(null),
+        ]);
+
+
+        return {
+            status: "success",
+            message: "Resposta enviada com sucesso.",
+
+            comment:
+                commentResponse?.data ?? null,
+
+            attachment:
+                attachmentResponse?.data ?? null,
+        };
+    } catch {
+        return {
+            status: "error",
+            message:
+                "Não foi possível enviar a resposta.",
         };
     }
 }

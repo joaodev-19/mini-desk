@@ -3,6 +3,7 @@ import {
 } from "../../../api/tickets/api.js";
 
 import type {
+    ChatItem,
     TicketDetail,
 } from "../../../api/tickets/types.js";
 
@@ -25,11 +26,13 @@ import {
 } from "./renderTicketActions.js";
 
 import {
+    renderAttachmentPreview,
     renderConversation,
 } from "./renderTicketChat.js";
 
 import {
     fillForm,
+    handleReplySubmit,
     handleUpdateTicketSubmit,
 } from "../../../shared/utils/form.js";
 
@@ -84,12 +87,67 @@ document.addEventListener("DOMContentLoaded", async () => {
                 "#edit-ticket-form",
             );
 
+        const ticketReplyForm = 
+            document.querySelector<HTMLFormElement>(
+                "#ticket-reply-form"
+            );
+
+        const fileInput =
+            document.querySelector<HTMLInputElement>(
+                "#reply-file",
+            );
+
+        const preview =
+            document.getElementById(
+                "reply-attachment-preview",
+            );
+
+        const previewImage =
+            document.querySelector<HTMLImageElement>(
+                "#reply-attachment-image",
+            );
+
+        const fileIcon =
+            document.getElementById(
+                "reply-attachment-file-icon",
+            );
+
+        const fileName =
+            document.getElementById(
+                "reply-attachment-name",
+            );
+
+        const fileSize =
+            document.getElementById(
+                "reply-attachment-size",
+            );
+
+        const removeButton =
+            document.querySelector<HTMLButtonElement>(
+                "#reply-attachment-remove",
+            );
+
+        if (
+            !fileInput ||
+            !preview ||
+            !previewImage ||
+            !fileIcon ||
+            !fileName ||
+            !fileSize ||
+            !removeButton
+        ) {
+            throw new Error(
+                "Não foi possível inicializar o campo de anexo.",
+            );
+        }
+
         if (
             !detailPage ||
             !summaryCard ||
             !metaCard ||
             !ticketActionsContainer ||
-            !chatContainer
+            !chatContainer || 
+            !ticketReplyForm
         ) {
             throw new Error(
                 "Não foi possível inicializar a página de detalhamento.",
@@ -105,6 +163,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             chatContainer,
             updateModal,
             updateForm,
+            ticketReplyForm,
+
+            fileInput,
+            preview,
+            previewImage,
+            fileIcon,
+            fileName,
+            fileSize,
+            removeButton,
         };
     })();
 
@@ -151,9 +218,28 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
         }
 
+        const chatItems: ChatItem[] = [
+            ...state.ticket.comments.map((comment) => ({
+                type: "comment" as const,
+                data: comment,
+            })),
+            
+
+            ...state.ticket.files.map((attachment) => ({
+                type: "attachment" as const,
+                data: attachment,
+            })),
+        ];
+
+        chatItems.sort(
+            (a, b) =>
+                new Date(a.data.created_at).getTime() -
+                new Date(b.data.created_at).getTime(),
+        );
+
         renderConversation(
             elements.chatContainer,
-            state.ticket.comments,
+            chatItems,
             state.user,
         );
     }
@@ -284,4 +370,118 @@ document.addEventListener("DOMContentLoaded", async () => {
             },
         );
     }
+
+    elements.ticketReplyForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!state.ticket) {
+            return;
+        }
+
+        const replyResponse = await handleReplySubmit(
+            state.ticket.id, 
+            elements.ticketReplyForm
+        );
+
+        if (
+            replyResponse.status === "error"
+        ) {
+            showToast(
+                "Erro ao enviar resposta",
+                replyResponse.message,
+                "danger"
+            );
+
+            return;
+        }
+
+        if (
+            replyResponse.comment
+        ) {
+            state.ticket = {
+                ...state.ticket,
+                comments: [
+                    ...state.ticket.comments,
+                    replyResponse.comment,
+                ],
+            };
+        }
+
+        if (replyResponse.attachment) {
+            state.ticket = {
+                ...state.ticket,
+                files: [
+                    ...state.ticket.files,
+                    replyResponse.attachment,
+                ],
+            };
+        }
+
+        elements.ticketReplyForm.reset();
+
+        renderPage();
+
+        showToast(
+            "Resposta enviada",
+            replyResponse.message,
+            "success"
+        );
+    });
+
+    let previewUrl: string | null = null;
+
+    function clearAttachmentPreview(): void {
+        elements.fileInput.value = "";
+
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+        }
+
+        elements.previewImage.src = "";
+        elements.previewImage.hidden = true;
+
+        elements.fileIcon.hidden = false;
+
+        elements.fileName.textContent = "";
+        elements.fileSize.textContent = "";
+
+        elements.preview.classList.add("d-none");
+    }
+
+    elements.fileInput.addEventListener(
+        "change",
+        () => {
+            const file =
+                elements.fileInput.files?.[0];
+
+            if (!file) {
+                clearAttachmentPreview();
+                return;
+            }
+
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+
+            previewUrl =
+                renderAttachmentPreview(
+                    file,
+                    {
+                        container: elements.preview,
+                        image: elements.previewImage,
+                        fileIcon: elements.fileIcon,
+                        fileName: elements.fileName,
+                        fileSize: elements.fileSize,
+                    },
+                );
+        },
+    );
+
+    elements.removeButton.addEventListener(
+        "click",
+        () => {
+            clearAttachmentPreview();
+        },
+    );
 });

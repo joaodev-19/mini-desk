@@ -1,27 +1,52 @@
 import { getInitials, formatDateTime } from "../../../shared/utils/utils.js";
-export function createComment(comment, currentUser) {
-    const isMine = comment.author.id === currentUser.id;
-    const messageItem = document.createElement('div');
-    messageItem.classList.add("message-item", isMine ? "message-mine" : "message-other");
-    const initialsDiv = document.createElement('div');
-    initialsDiv.textContent = getInitials(comment.author.full_name);
-    initialsDiv.classList.add('message-avatar');
-    messageItem.appendChild(initialsDiv);
-    const messageBubble = document.createElement('div');
-    messageBubble.classList.add('message-bubble');
-    const messageMeta = document.createElement('div');
-    messageMeta.classList.add('message-meta');
-    const nameStrong = document.createElement('strong');
-    nameStrong.textContent = comment.author.full_name;
-    messageMeta.appendChild(nameStrong);
-    const dateSpan = document.createElement('span');
-    dateSpan.textContent = formatDateTime(comment.created_at);
-    messageMeta.appendChild(dateSpan);
-    const messageText = document.createElement('p');
-    messageText.textContent = comment.content;
+export function createComment(item, currentUser) {
+    const author = item.type === "comment" ? item.data.author : item.data.uploaded_by;
+    const isMine = author.id === currentUser.id;
+    const createdAt = item.data.created_at;
+    const messageItem = document.createElement("div");
+    messageItem.classList.add("message-item", isMine
+        ? "message-mine"
+        : "message-other");
+    const initialsDiv = document.createElement("div");
+    initialsDiv.textContent =
+        getInitials(author.full_name);
+    initialsDiv.classList.add("message-avatar");
+    const messageBubble = document.createElement("div");
+    messageBubble.classList.add("message-bubble");
+    const messageMeta = document.createElement("div");
+    messageMeta.classList.add("message-meta");
+    const nameStrong = document.createElement("strong");
+    nameStrong.textContent =
+        author.full_name;
+    const dateSpan = document.createElement("span");
+    dateSpan.textContent =
+        formatDateTime(createdAt);
+    messageMeta.append(nameStrong, dateSpan);
     messageBubble.appendChild(messageMeta);
-    messageBubble.appendChild(messageText);
-    messageItem.appendChild(messageBubble);
+    if (item.type === "comment") {
+        const messageText = document.createElement("p");
+        messageText.textContent =
+            item.data.content;
+        messageBubble.appendChild(messageText);
+    }
+    if (item.type === "attachment") {
+        const attachmentLink = document.createElement("a");
+        attachmentLink.href =
+            item.data.file;
+        attachmentLink.target = "_blank";
+        attachmentLink.rel =
+            "noopener noreferrer";
+        attachmentLink.classList.add("message-attachment-link");
+        const image = document.createElement("img");
+        image.src =
+            item.data.file;
+        image.alt =
+            "Anexo enviado no chamado";
+        image.classList.add("message-attachment-image");
+        attachmentLink.appendChild(image);
+        messageBubble.appendChild(attachmentLink);
+    }
+    messageItem.append(initialsDiv, messageBubble);
     return messageItem;
 }
 export function createTimelineEvent(event) {
@@ -52,5 +77,28 @@ export function renderConversation(container, comments, user) {
         fragment.appendChild(commentEl);
     });
     container.replaceChildren(fragment);
+}
+export function renderAttachmentPreview(file, elements) {
+    elements.fileName.textContent =
+        file.name;
+    elements.fileSize.textContent =
+        `${(file.size / 1024).toFixed(1)} KB`;
+    const isImage = file.type.startsWith("image/");
+    let previewUrl = null;
+    if (isImage) {
+        previewUrl =
+            URL.createObjectURL(file);
+        elements.image.src =
+            previewUrl;
+        elements.image.hidden = false;
+        elements.fileIcon.hidden = true;
+    }
+    else {
+        elements.image.src = "";
+        elements.image.hidden = true;
+        elements.fileIcon.hidden = false;
+    }
+    elements.container.classList.remove("d-none");
+    return previewUrl;
 }
 //# sourceMappingURL=renderTicketChat.js.map

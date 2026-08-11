@@ -7,6 +7,29 @@ export type CreateTicketResult =
     | { status: 'warning'; message: string; ticketId: number }
     | { status: 'error'; message: string };
 
+export type ReplySubmitResult =
+    | {
+        status: "success";
+        message: string;
+        comment: TicketComment | null;
+        attachment: TicketAttachment | null;
+    }
+    | {
+        status: "error";
+        message: string;
+    };
+
+export type ChatItem =
+    | {
+        type: "comment";
+        data: TicketComment;
+    }
+    | {
+        type: "attachment";
+        data: TicketAttachment;
+    };
+
+
 export type UpdateTicketSubmitResult =
     | {
         status: "success";
@@ -26,6 +49,14 @@ export type CommentAuthor = {
     role: 'client' | 'support';
 }
 
+export type AttachmentPreviewElements = {
+    container: HTMLElement;
+    image: HTMLImageElement;
+    fileIcon: HTMLElement;
+    fileName: HTMLElement;
+    fileSize: HTMLElement;
+};
+
 export interface TicketComment {
     id: number;
     author: CommentAuthor;
@@ -35,7 +66,7 @@ export interface TicketComment {
 
 export interface TicketAttachment {
     id: number;
-    uploaded_by: string;
+    uploaded_by: CommentAuthor;
     file: string;
     created_at: string;
 }

@@ -46,7 +46,7 @@ class TicketCreateCommentSerializer(serializers.Serializer):
 class TicketAttachmentSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
 
-    uploaded_by = serializers.StringRelatedField(
+    uploaded_by = TicketCommentAuthorSerializer(
         read_only=True
     )
 

@@ -113,9 +113,105 @@
                     class="ticket-attachments-list"
                     id="ticket-attachments-list"
                 >
-                    <p class="empty-text">
-                        Nenhum anexo enviado até o momento.
-                    </p>
+                    <article class="ticket-attachment-item">
+                        <div class="ticket-attachment-icon">
+                            <i class="bi bi-file-earmark-image"></i>
+                        </div>
+
+                        <div class="ticket-attachment-info">
+                            <a
+                                href="/media/tickets/erro-cadastro.png"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="ticket-attachment-name"
+                            >
+                                erro-cadastro.png
+                            </a>
+
+                            <div class="ticket-attachment-meta">
+                                <span>
+                                    Enviado por João Silva
+                                </span>
+
+                                <span aria-hidden="true">
+                                    •
+                                </span>
+
+                                <time datetime="2026-08-11T12:17:00">
+                                    11/08/2026 às 12:17
+                                </time>
+                            </div>
+                        </div>
+
+                        <div class="ticket-attachment-actions">
+                            <a
+                                href="/media/tickets/erro-cadastro.png"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="attachment-action-button"
+                                aria-label="Abrir anexo"
+                                title="Abrir arquivo"
+                            >
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+
+                            <button
+                                type="button"
+                                class="attachment-action-button attachment-delete-button"
+                                data-action="delete-attachment"
+                                data-attachment-id="84"
+                                aria-label="Excluir anexo"
+                                title="Excluir arquivo"
+                            >
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </div>
+                    </article>
+
+
+                    <article class="ticket-attachment-item">
+                        <div class="ticket-attachment-icon">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </div>
+
+                        <div class="ticket-attachment-info">
+                            <a
+                                href="/media/tickets/relatorio.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="ticket-attachment-name"
+                            >
+                                relatorio.pdf
+                            </a>
+
+                            <div class="ticket-attachment-meta">
+                                <span>
+                                    Enviado por Administrador Seed
+                                </span>
+
+                                <span aria-hidden="true">
+                                    •
+                                </span>
+
+                                <time datetime="2026-08-11T12:23:00">
+                                    11/08/2026 às 12:23
+                                </time>
+                            </div>
+                        </div>
+
+                        <div class="ticket-attachment-actions">
+                            <a
+                                href="/media/tickets/relatorio.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="attachment-action-button"
+                                aria-label="Abrir anexo"
+                                title="Abrir arquivo"
+                            >
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </div>
+                    </article>
                 </div>
             </article>
 
@@ -207,7 +303,7 @@
                 </header>
 
                 <div
-                    class="conversation-timeline"
+                    class="conversation-timeline overflow-auto"
                     id="conversation-timeline"
                 >
                 <!-- TS -->
@@ -229,15 +325,53 @@
                             placeholder="Descreva sua resposta..."
                         ></textarea>
 
+                        <div
+                            class="reply-attachment-preview d-none"
+                            id="reply-attachment-preview"
+                            aria-live="polite"
+                        >
+                            <div class="reply-attachment-thumbnail">
+                                <img
+                                    id="reply-attachment-image"
+                                    alt="Pré-visualização do anexo"
+                                    hidden
+                                >
+
+                                <i
+                                    class="bi bi-file-earmark reply-attachment-file-icon"
+                                    id="reply-attachment-file-icon"
+                                    aria-hidden="true"
+                                ></i>
+                            </div>
+
+                            <div class="reply-attachment-info">
+                                <strong id="reply-attachment-name">
+                                    Arquivo
+                                </strong>
+
+                                <span id="reply-attachment-size"></span>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="reply-attachment-remove"
+                                id="reply-attachment-remove"
+                                aria-label="Remover arquivo"
+                            >
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+
                         <div class="reply-actions">
                             <label class="file-input-button">
                                 <input
                                     type="file"
-                                    name="file"
+                                    name="attachment"
                                     id="reply-file"
-                                    class="secondary-button"
                                     hidden
                                 >
+
+                                <i class="bi bi-paperclip"></i>
                                 Anexar arquivo
                             </label>
 
