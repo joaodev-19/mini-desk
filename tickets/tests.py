@@ -43,9 +43,6 @@ def create_user(
     password=DEFAULT_PASSWORD,
     **extra_fields,
 ):
-    """
-    Cria um usuário real usando o manager do custom User.
-    """
 
     if role is None:
         role = User.RoleOptions.CLIENT
@@ -59,9 +56,6 @@ def create_user(
 
 
 def create_ticket(*, created_by, **overrides):
-    """
-    Cria um Ticket válido com valores padrões.
-    """
 
     data = {
         "title": "Erro ao cadastrar cliente",
@@ -75,11 +69,6 @@ def create_ticket(*, created_by, **overrides):
     data.update(overrides)
 
     return Ticket.objects.create(**data)
-
-
-# =============================================================================
-# MODELS
-# =============================================================================
 
 
 class TicketModelTests(TestCase):
