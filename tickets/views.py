@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 
 User = get_user_model()
 
-from .models import Ticket
+from .models import Ticket, TicketAttachment
 from .serializers import (
     TicketAttachmentSerializer,
     TicketCommentSerializer,
@@ -97,7 +97,7 @@ class TicketDetailAPIView(APIView):
     def delete(self, request, pk):
         if not request.user.is_support:
             raise PermissionDenied(
-                "Somente suportes podem excluir tickets."
+                "Somente suportes podem excluir tickets."   
             )
         
         ticket = get_object_or_404(Ticket, pk=pk)
@@ -172,7 +172,6 @@ class TicketCommentCreateAPIView(APIView):
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
-
 class TicketAttachmentCreateAPIView(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
@@ -193,6 +192,35 @@ class TicketAttachmentCreateAPIView(APIView):
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
+class TicketAttachmentDeleteAPIView(APIView):
+    authentication_classes = [
+        SessionAuthentication
+    ]
+
+    permission_classes = [
+        IsAuthenticated
+    ]
+
+    def delete(self, request, pk):
+        if request.user.is_support:
+            attachment = get_object_or_404(
+                TicketAttachment,
+                pk=pk,
+            )
+
+        else:
+            attachment = get_object_or_404(
+                TicketAttachment,
+                pk=pk,
+                uploaded_by=request.user,
+                ticket__created_by=request.user,
+            )
+
+        attachment.delete()
+
+        return Response(
+            status=status.HTTP_204_NO_CONTENT
+        )
 
 @login_required
 def ticket_home_view(request):

@@ -121,3 +121,13 @@ export function deleteTicket(id: number): Promise<ApiResponse<null>> {
 
     return request<null>(config);
 }
+
+export function deleteAttachment(
+    attachmentId: number,
+): Promise<ApiResponse<null>> {
+    const config: HttpRequestConfig = {
+        url: `${BASE_URL}attachments/${attachmentId}/`,
+        method: "DELETE",
+    };
+    return request<null>(config);
+}

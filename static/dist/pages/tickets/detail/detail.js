@@ -1,4 +1,4 @@
-import { getTicket, } from "../../../api/tickets/api.js";
+import { deleteAttachment, getTicket, } from "../../../api/tickets/api.js";
 import { getCurrentUser, } from "../../../api/users/api.js";
 import { renderMetaCard, renderSummaryCard, } from "./renderTicketDetails.js";
 import { renderTicketContentActions, renderWorkflowDropdownItems, } from "./renderTicketActions.js";
@@ -6,6 +6,7 @@ import { renderAttachmentPreview, renderConversation, } from "./renderTicketChat
 import { fillForm, handleReplySubmit, handleUpdateTicketSubmit, } from "../../../shared/utils/form.js";
 import { closeModal, } from "../../../shared/utils/utils.js";
 import { showToast, } from "../../../shared/utils/toast.js";
+import { renderTicketAttachments } from "./renderTicketAttachments.js";
 document.addEventListener("DOMContentLoaded", async () => {
     const elements = (() => {
         const detailPage = document.getElementById("ticket-detail-page");
@@ -24,6 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const fileName = document.getElementById("reply-attachment-name");
         const fileSize = document.getElementById("reply-attachment-size");
         const removeButton = document.querySelector("#reply-attachment-remove");
+        const ticketAttachmentList = document.getElementById("ticket-attachments-list");
         if (!fileInput ||
             !preview ||
             !previewImage ||
@@ -38,7 +40,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             !metaCard ||
             !ticketActionsContainer ||
             !chatContainer ||
-            !ticketReplyForm) {
+            !ticketReplyForm ||
+            !ticketAttachmentList) {
             throw new Error("Não foi possível inicializar a página de detalhamento.");
         }
         return {
@@ -51,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             updateModal,
             updateForm,
             ticketReplyForm,
+            ticketAttachmentList,
             fileInput,
             preview,
             previewImage,
@@ -89,6 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         chatItems.sort((a, b) => new Date(a.data.created_at).getTime() -
             new Date(b.data.created_at).getTime());
         renderConversation(elements.chatContainer, chatItems, state.user);
+        renderTicketAttachments(state.ticket.files, state.user, elements.ticketAttachmentList);
     }
     async function init() {
         const ticketId = Number(elements.detailPage.dataset.ticketId);
@@ -212,6 +217,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     elements.removeButton.addEventListener("click", () => {
         clearAttachmentPreview();
+    });
+    elements.ticketAttachmentList.addEventListener("click", async (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+            return;
+        }
+        const button = target.closest('[data-action="delete-attachment"]');
+        if (!button) {
+            return;
+        }
+        const attachmentId = Number(button.dataset.attachmentId);
+        if (!Number.isInteger(attachmentId) ||
+            attachmentId <= 0) {
+            throw new Error("ID do anexo inválido.");
+        }
+        try {
+            await deleteAttachment(attachmentId);
+            if (state.ticket) {
+                state.ticket = {
+                    ...state.ticket,
+                    files: state.ticket.files.filter((file) => file.id !== attachmentId),
+                };
+                renderPage();
+            }
+            showToast("Anexo removido", "Anexo removido com sucesso.", "success");
+        }
+        catch (error) {
+            console.error(error);
+            showToast("Erro ao remover anexo", "Houve um erro ao remover o anexo.", "danger");
+        }
     });
 });
 //# sourceMappingURL=detail.js.map

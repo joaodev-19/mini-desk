@@ -70,4 +70,11 @@ export function deleteTicket(id) {
     };
     return request(config);
 }
+export function deleteAttachment(attachmentId) {
+    const config = {
+        url: `${BASE_URL}attachments/${attachmentId}/`,
+        method: "DELETE",
+    };
+    return request(config);
+}
 //# sourceMappingURL=api.js.map

@@ -7,6 +7,7 @@ from .views import (
     TicketSupportUpdateAPIView,
     TicketCommentCreateAPIView,
     TicketAttachmentCreateAPIView,
+    TicketAttachmentDeleteAPIView,
 )
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
     path('tickets/<int:pk>/support/', TicketSupportUpdateAPIView.as_view(), name="ticket-support-update"),
     path('tickets/<int:pk>/comment/', TicketCommentCreateAPIView.as_view(), name="ticket-comment-create"),
     path('tickets/<int:pk>/attachment/', TicketAttachmentCreateAPIView.as_view(), name="ticket-attachment-create"),
+    path("tickets/attachments/<int:pk>/", TicketAttachmentDeleteAPIView.as_view(), name="attachment-delete"),
 ]
