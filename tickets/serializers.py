@@ -281,3 +281,8 @@ class TicketSupportUpdateSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+
+class TicketStatusUpdateSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(
+        choices=Ticket.TicketStatus.choices
+    )

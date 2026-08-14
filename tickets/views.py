@@ -21,7 +21,10 @@ from .serializers import (
     TicketDetailSerializer,
     TicketListSerializer,
     TicketSupportUpdateSerializer,
+    TicketStatusUpdateSerializer,
 )
+
+from .services import update_ticket_status
 
 
 class TicketListCreateAPIView(APIView):
@@ -221,6 +224,40 @@ class TicketAttachmentDeleteAPIView(APIView):
         return Response(
             status=status.HTTP_204_NO_CONTENT
         )
+
+class TicketStatusUpdateAPIView(APIView):
+    authentication_classes = [
+        SessionAuthentication
+    ]
+
+    permission_classes = [
+        IsAuthenticated
+    ]
+
+    def patch(self, request, pk):
+        ticket = get_object_or_404(Ticket, pk=pk)
+
+        serializer = (
+            TicketStatusUpdateSerializer(data=request.data)
+        )
+
+        serializer.is_valid(
+            raise_exception=True
+        )
+
+
+        ticket = update_ticket_status(
+            ticket=ticket,
+            new_status=(
+                serializer.validated_data["status"]
+            ),
+            user=request.user,
+        )
+
+        output_serializer = (TicketDetailSerializer(ticket))
+
+        return Response(output_serializer.data)
+    
 
 @login_required
 def ticket_home_view(request):
