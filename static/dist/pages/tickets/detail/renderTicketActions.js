@@ -30,6 +30,14 @@ const workflowItemsMap = {
         desc: "Retornar o chamado ao atendimento.",
     },
 };
+export const workflowSuccessMessageMap = {
+    start: "Atendimento iniciado com sucesso.",
+    wait_user: "Chamado movido para aguardando cliente.",
+    resume: "Atendimento retomado com sucesso.",
+    resolve: "Chamado concluído com sucesso.",
+    close: "Chamado fechado com sucesso.",
+    reopen: "Chamado reaberto com sucesso.",
+};
 const allowedActionsByStatus = {
     open: [
         "start",
@@ -50,7 +58,7 @@ const allowedActionsByStatus = {
         "reopen",
     ],
 };
-const statusByWorkflowAction = {
+export const statusByWorkflowAction = {
     start: "in_analysis",
     wait_user: "waiting_user",
     resume: "in_analysis",

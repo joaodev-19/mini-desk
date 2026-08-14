@@ -2,10 +2,12 @@ import {
     deleteAttachment,
     getTicket,
     updateTicketContent,
+    updateTicketStatus,
 } from "../../../api/tickets/api.js";
 
 import type {
     ChatItem,
+    StatusChoices,
     TicketDetail,
 } from "../../../api/tickets/types.js";
 
@@ -25,6 +27,8 @@ import {
 import {
     renderTicketContentActions,
     renderWorkflowDropdownItems,
+    workflowSuccessMessageMap,
+    type WorkflowAction,
 } from "./renderTicketActions.js";
 
 import {
@@ -566,25 +570,65 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     if (elements.workflowItemsContainer) {
-        elements.workflowItemsContainer.addEventListener("click", async (e: MouseEvent) => {
-            const target = e.target;
+        elements.workflowItemsContainer.addEventListener(
+            "click",
+            async (event: MouseEvent) => {
+                const target = event.target;
 
-            if (!(target instanceof HTMLElement)) {
-                return;
-            }            
+                if (!(target instanceof HTMLElement)) {
+                    return;
+                }
 
-            const button = 
-                target.closest<HTMLButtonElement>("[data-action]");
+                const button =
+                    target.closest<HTMLButtonElement>(
+                        "[data-action]",
+                    );
 
-            if (button) {
-                const action = button.dataset.action;
-                const status = button.dataset.status;
+                if (!button || !state.ticket) {
+                    return;
+                }
+
+                const action =
+                    button.dataset.action as WorkflowAction;
+
+                const targetStatus =
+                    button.dataset.status as StatusChoices | undefined;
+
+                if (!targetStatus) {
+                    throw new Error(
+                        "Status de destino não encontrado.",
+                    );
+                }
 
                 try {
-                    const updatedTicket = await updateTicketContent(status);
-                }
-            }
+                    const responseUpdateStatus =
+                        await updateTicketStatus(
+                            state.ticket.id,
+                            {
+                                status: targetStatus,
+                            },
+                        );
 
-        });
+                    state.ticket =
+                        responseUpdateStatus.data;
+
+                    renderPage();
+
+                    showToast(
+                        "Status atualizado",
+                        workflowSuccessMessageMap[action],
+                        "success",
+                    );
+                } catch (error) {
+                    console.error(error);
+
+                    showToast(
+                        "Erro ao atualizar status",
+                        "Houve um erro ao atualizar o status. Por favor, tente novamente.",
+                        "danger",
+                    );
+                }
+            },
+        );
     }
 });

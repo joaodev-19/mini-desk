@@ -32,7 +32,6 @@ export type ChatItem =
 
 export type UpdateTicketStatusRequest = {
     status: StatusChoices;
-    message: string;
 }
 
 export type UpdateTicketSubmitResult =

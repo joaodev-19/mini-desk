@@ -72,4 +72,4 @@ def update_ticket_status(
         ]
     )
 
-    return Ticket
+    return ticket

@@ -1,7 +1,7 @@
-import { deleteAttachment, getTicket, updateTicketContent, } from "../../../api/tickets/api.js";
+import { deleteAttachment, getTicket, updateTicketContent, updateTicketStatus, } from "../../../api/tickets/api.js";
 import { getCurrentUser, } from "../../../api/users/api.js";
 import { renderMetaCard, renderSummaryCard, } from "./renderTicketDetails.js";
-import { renderTicketContentActions, renderWorkflowDropdownItems, } from "./renderTicketActions.js";
+import { renderTicketContentActions, renderWorkflowDropdownItems, workflowSuccessMessageMap, } from "./renderTicketActions.js";
 import { renderAttachmentPreview, renderConversation, } from "./renderTicketChat.js";
 import { fillForm, handleReplySubmit, handleUpdateTicketSubmit, } from "../../../shared/utils/form.js";
 import { closeModal, } from "../../../shared/utils/utils.js";
@@ -249,20 +249,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
     if (elements.workflowItemsContainer) {
-        elements.workflowItemsContainer.addEventListener("click", async (e) => {
-            const target = e.target;
+        elements.workflowItemsContainer.addEventListener("click", async (event) => {
+            const target = event.target;
             if (!(target instanceof HTMLElement)) {
                 return;
             }
             const button = target.closest("[data-action]");
-            if (button) {
-                const action = button.dataset.action;
-                const status = button.dataset.status;
-                try {
-                    const updatedTicket = await updateTicketContent(status);
-                }
-                finally {
-                }
+            if (!button || !state.ticket) {
+                return;
+            }
+            const action = button.dataset.action;
+            const targetStatus = button.dataset.status;
+            if (!targetStatus) {
+                throw new Error("Status de destino não encontrado.");
+            }
+            try {
+                const responseUpdateStatus = await updateTicketStatus(state.ticket.id, {
+                    status: targetStatus,
+                });
+                state.ticket =
+                    responseUpdateStatus.data;
+                renderPage();
+                showToast("Status atualizado", workflowSuccessMessageMap[action], "success");
+            }
+            catch (error) {
+                console.error(error);
+                showToast("Erro ao atualizar status", "Houve um erro ao atualizar o status. Por favor, tente novamente.", "danger");
             }
         });
     }

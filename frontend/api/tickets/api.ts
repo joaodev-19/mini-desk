@@ -84,11 +84,15 @@ export function updateTicketSupport(
 }
 
 export function updateTicketStatus(
-    id: number, status: StatusChoices
-): Promise<ApiResponse<UpdateTicketStatusRequest>> {
+    id: number, data: UpdateTicketStatusRequest
+): Promise<ApiResponse<TicketDetail>> {
     const config: HttpRequestConfig<UpdateTicketStatusRequest> = {
-        url: ``
+        url: `${BASE_URL}update-status/${id}/`,
+        method: 'PATCH',
+        data: data,
     }
+
+    return request<TicketDetail>(config);
 }
 
 export function createTicketComment(

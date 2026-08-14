@@ -7,7 +7,7 @@ type WorkflowItem = {
     desc: string;
 };
 
-type WorkflowAction =
+export type WorkflowAction =
     | "start"
     | "wait_user"
     | "resume"
@@ -56,6 +56,18 @@ const workflowItemsMap: Record<
     },
 };
 
+export const workflowSuccessMessageMap: Record<
+    WorkflowAction,
+    string
+> = {
+    start: "Atendimento iniciado com sucesso.",
+    wait_user: "Chamado movido para aguardando cliente.",
+    resume: "Atendimento retomado com sucesso.",
+    resolve: "Chamado concluído com sucesso.",
+    close: "Chamado fechado com sucesso.",
+    reopen: "Chamado reaberto com sucesso.",
+};
+
 const allowedActionsByStatus = {
     open: [
         "start",
@@ -81,7 +93,7 @@ const allowedActionsByStatus = {
     ],
 } satisfies Record<StatusChoices, WorkflowAction[]>;
 
-const statusByWorkflowAction: Record<
+export const statusByWorkflowAction: Record<
     WorkflowAction,
     StatusChoices
 > = {

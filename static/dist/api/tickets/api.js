@@ -45,10 +45,13 @@ export function updateTicketSupport(id, data) {
     };
     return request(config);
 }
-export function updateTicketStatus(id, status) {
+export function updateTicketStatus(id, data) {
     const config = {
-        url: ``
+        url: `${BASE_URL}update-status/${id}/`,
+        method: 'PATCH',
+        data: data,
     };
+    return request(config);
 }
 export function createTicketComment(id, data) {
     const config = {
