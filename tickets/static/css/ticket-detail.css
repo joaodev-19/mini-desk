@@ -1006,3 +1006,55 @@
     background: var(--red-soft);
     color: var(--red);
 }
+
+.conversation-empty {
+    min-height: 320px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem;
+    text-align: center;
+}
+
+.conversation-empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 1rem;
+
+    border-radius: 12px;
+
+    background-color: #f3f0ff;
+    color: #6c4cff;
+
+    font-size: 1.25rem;
+}
+
+.conversation-empty-content {
+    max-width: 360px;
+}
+
+.conversation-empty-content h3 {
+    margin: 0 0 0.5rem;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: #292934;
+}
+
+.conversation-empty-content p {
+    margin: 0;
+
+    font-size: 0.875rem;
+    line-height: 1.5;
+
+    color: #747482;
+}

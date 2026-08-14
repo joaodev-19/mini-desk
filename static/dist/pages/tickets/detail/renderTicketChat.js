@@ -72,6 +72,26 @@ export function createTimelineEvent(event) {
 }
 export function renderConversation(container, comments, user) {
     const fragment = document.createDocumentFragment();
+    if (!comments || comments.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'conversation-empty';
+        empty.innerHTML = `
+            <div class="conversation-empty-icon">
+                <i class="bi bi-chat-left-text"></i>
+            </div>
+
+            <div class="conversation-empty-content">
+                <h3>Nenhuma mensagem ainda</h3>
+
+                <p>
+                    A conversa deste atendimento ainda não começou.
+                    Envie uma mensagem abaixo para iniciar.
+                </p>
+            </div>
+        `;
+        container.replaceChildren(empty);
+        return;
+    }
     comments.forEach((comment) => {
         const commentEl = createComment(comment, user);
         fragment.appendChild(commentEl);
