@@ -1,4 +1,4 @@
-import { deleteAttachment, getTicket, } from "../../../api/tickets/api.js";
+import { deleteAttachment, getTicket, updateTicketContent, } from "../../../api/tickets/api.js";
 import { getCurrentUser, } from "../../../api/users/api.js";
 import { renderMetaCard, renderSummaryCard, } from "./renderTicketDetails.js";
 import { renderTicketContentActions, renderWorkflowDropdownItems, } from "./renderTicketActions.js";
@@ -248,5 +248,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             showToast("Erro ao remover anexo", "Houve um erro ao remover o anexo.", "danger");
         }
     });
+    if (elements.workflowItemsContainer) {
+        elements.workflowItemsContainer.addEventListener("click", async (e) => {
+            const target = e.target;
+            if (!(target instanceof HTMLElement)) {
+                return;
+            }
+            const button = target.closest("[data-action]");
+            if (button) {
+                const action = button.dataset.action;
+                const status = button.dataset.status;
+                try {
+                    const updatedTicket = await updateTicketContent(status);
+                }
+                finally {
+                }
+            }
+        });
+    }
 });
 //# sourceMappingURL=detail.js.map

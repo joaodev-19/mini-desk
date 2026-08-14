@@ -45,6 +45,11 @@ export function updateTicketSupport(id, data) {
     };
     return request(config);
 }
+export function updateTicketStatus(id, status) {
+    const config = {
+        url: ``
+    };
+}
 export function createTicketComment(id, data) {
     const config = {
         url: `${BASE_URL}${id}/comment/`,

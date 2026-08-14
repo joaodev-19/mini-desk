@@ -11,6 +11,8 @@ import type {
     CreateAttachmentRequest,
     TicketComment,
     TicketAttachment,
+    StatusChoices,
+    UpdateTicketStatusRequest,
 } from "./types.js";
 
 const BASE_URL = '/api/tickets/';
@@ -79,6 +81,14 @@ export function updateTicketSupport(
     }
 
     return request<TicketDetail>(config);
+}
+
+export function updateTicketStatus(
+    id: number, status: StatusChoices
+): Promise<ApiResponse<UpdateTicketStatusRequest>> {
+    const config: HttpRequestConfig<UpdateTicketStatusRequest> = {
+        url: ``
+    }
 }
 
 export function createTicketComment(

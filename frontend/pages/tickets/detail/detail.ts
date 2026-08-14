@@ -1,6 +1,7 @@
 import {
     deleteAttachment,
     getTicket,
+    updateTicketContent,
 } from "../../../api/tickets/api.js";
 
 import type {
@@ -563,4 +564,27 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         },
     );
+
+    if (elements.workflowItemsContainer) {
+        elements.workflowItemsContainer.addEventListener("click", async (e: MouseEvent) => {
+            const target = e.target;
+
+            if (!(target instanceof HTMLElement)) {
+                return;
+            }            
+
+            const button = 
+                target.closest<HTMLButtonElement>("[data-action]");
+
+            if (button) {
+                const action = button.dataset.action;
+                const status = button.dataset.status;
+
+                try {
+                    const updatedTicket = await updateTicketContent(status);
+                }
+            }
+
+        });
+    }
 });
